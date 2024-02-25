@@ -13,28 +13,50 @@ class Player
 	public static Vector2 Position { get; set; }
 	public static Vector2 Velocity { get; set; }
 
+	// Animations stuff
+	// TODO: Make fps dependant on velocity
+	private static int animationFrame = 0;
+	private static Texture2D[] animationFrames;
+	private static float animationFps = 15f;
+	private static double timeSinceLastAnimationFrame;
+
 	public static void Start()
 	{
 		// Set the forces dependant on the mass
-		moveForce = mass * 15.5f;
-		jumpForce = mass * 15f;
+		moveForce = mass * 10.5f;
+		jumpForce = mass * 10f;
+
+		// Get animation info
+		// TODO: Do somewhere else. Maybe in JSON or just by looking at directory
+		const int animationFrameCount = 4;
+		animationFrames = new Texture2D[animationFrameCount];
+		const string animationPath = "./assets/texture/player/walk-";
+
+		// Load in all of the animation frames
+		for (int i = 0; i < animationFrameCount; i++)
+		{
+			animationFrames[i] = Raylib.LoadTexture(animationPath + i + ".png");
+		}
+		timeSinceLastAnimationFrame = Raylib.GetTime();
 	}
 
 	public static void Update()
 	{
 		Movement();
+		Animate();
 	}
 
 	public static void Render()
 	{
 		Raylib.DrawText($"Velocity: {Velocity}", 0, 0, 30, Color.Black);
 
-		Raylib.DrawRectangleRec(new Rectangle(Position.X, Position.Y, width, height), Color.Red);
+		Raylib.DrawTexture(animationFrames[animationFrame], (int)Position.X, (int)Position.Y, Color.White);
 	}
 
 	public static void CleanUp()
 	{
-		
+		// Unload all of the animation frames
+		foreach (Texture2D frame in animationFrames) Raylib.UnloadTexture(frame);
 	}
 
 
@@ -65,5 +87,22 @@ class Player
 	private static bool Collision(Vector2 newPosition)
 	{
 		return false;
+	}
+
+	// TODO: only animate if the player is moving
+	private static void Animate()
+	{
+		// Check for if we're eligible for the next frame
+		double currentTime = Raylib.GetTime();
+		double elapsedTime = currentTime - timeSinceLastAnimationFrame;
+		if (elapsedTime >= (1f / animationFps))
+		{
+			// Go to the next frame
+			animationFrame++;
+			if (animationFrame > animationFrames.Length - 1) animationFrame = 0;
+
+			// Reset the time
+			timeSinceLastAnimationFrame = currentTime;
+		}
 	}
 }
