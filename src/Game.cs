@@ -1,7 +1,12 @@
+using System.Numerics;
 using Raylib_cs;
 
 class Game
 {
+	public const int GameWidth = 512;
+	public const int GameHeight = 256;
+	private static RenderTexture2D gameView;
+
 	public static void Run()
 	{
 		// Make the raylib window and whatnot
@@ -22,6 +27,12 @@ class Game
 
 	private static void Start()
 	{
+		// Make a render texture to
+		// render the game on so that
+		// it stays the same sorta size
+		// no-matter the window/screen
+		gameView = Raylib.LoadRenderTexture(GameWidth, GameHeight);
+
 		Player.Start();
 	}
 	
@@ -35,8 +46,20 @@ class Game
 		Raylib.BeginDrawing();
 		Raylib.ClearBackground(Color.Magenta);
 
+		// Draw the game to the game view
+		Raylib.BeginTextureMode(gameView);
+		Raylib.BeginMode2D(Player.Camera);
 		Player.Render();
-		Raylib.DrawText("platofrming rn", 100, 100, 45, Color.Beige);
+		Raylib.EndMode2D();
+		Raylib.EndTextureMode();
+
+		// Draw the game on the screen
+		Rectangle source = new Rectangle(0, 0, GameWidth, -GameHeight);
+		Rectangle output = new Rectangle(0, 0, Raylib.GetScreenWidth(), Raylib.GetScreenHeight());
+		Raylib.DrawTexturePro(gameView.Texture, source, output, Vector2.Zero, 0f, Color.White);
+
+
+		// Draw UI
 
 		Raylib.EndDrawing();
 	}

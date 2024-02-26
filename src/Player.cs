@@ -3,6 +3,9 @@ using Raylib_cs;
 
 class Player
 {
+	// Camera stuff
+	public static Camera2D Camera;
+
 	private static float mass = 45f;
 	private static float moveForce;
 	private static float jumpForce;
@@ -22,6 +25,15 @@ class Player
 
 	public static void Start()
 	{
+		// Setup the camera
+		Camera = new Camera2D()
+		{
+			Target = Position,
+			Offset = new Vector2(Game.GameWidth, Game.GameHeight),
+			Rotation = 0.0f,
+			Zoom = 1f
+		};
+
 		// Set the forces dependant on the mass
 		moveForce = mass * 10.5f;
 		jumpForce = mass * 10f;
@@ -44,6 +56,9 @@ class Player
 	{
 		Movement();
 		Animate();
+
+		// Make the camera follow the player
+		Camera.Target = Position;
 	}
 
 	public static void Render()
