@@ -33,6 +33,9 @@ class Game
 		// no-matter the window/screen
 		gameView = Raylib.LoadRenderTexture(GameWidth, GameHeight);
 
+		// Load in the map
+		Map.LoadMap("./maps/map.map");
+
 		Player.Start();
 	}
 	
@@ -44,11 +47,11 @@ class Game
 	private static void Render()
 	{
 		Raylib.BeginDrawing();
-		Raylib.ClearBackground(Color.Magenta);
 
 		// Draw the game to the game view
 		Raylib.BeginTextureMode(gameView);
 		Raylib.BeginMode2D(Player.Camera);
+		Raylib.ClearBackground(Color.Magenta);
 		Player.Render();
 		Raylib.EndMode2D();
 		Raylib.EndTextureMode();
@@ -59,13 +62,16 @@ class Game
 		Raylib.DrawTexturePro(gameView.Texture, source, output, Vector2.Zero, 0f, Color.White);
 
 
-		// Draw UI
+		// Draw UI stuff
+		Raylib.DrawText($"FPS: {Raylib.GetFPS()}", 10, 10, 30, Color.Black);
+		Raylib.DrawText($"Position: {Player.Position}", 10, 40, 30, Color.Black);
 
 		Raylib.EndDrawing();
 	}
 
 	private static void CleanUp()
 	{
+		Map.CleanUp();
 		Player.CleanUp();
 
 		//! do this last

@@ -20,7 +20,7 @@ class Player
 	// TODO: Make fps dependant on velocity
 	private static int animationFrame = 0;
 	private static Texture2D[] animationFrames;
-	private static float animationFps = 15f;
+	private static float animationFps = 10f;
 	private static double timeSinceLastAnimationFrame;
 
 	public static void Start()
@@ -29,12 +29,13 @@ class Player
 		Camera = new Camera2D()
 		{
 			Target = Position,
-			Offset = new Vector2(Game.GameWidth, Game.GameHeight),
+			Offset = new Vector2(Game.GameWidth, Game.GameHeight) / 2,
 			Rotation = 0.0f,
 			Zoom = 1f
 		};
 
 		// Set the forces dependant on the mass
+		// moveForce = mass * 10.5f;
 		moveForce = mass * 10.5f;
 		jumpForce = mass * 10f;
 
