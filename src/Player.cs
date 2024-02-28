@@ -16,10 +16,11 @@ class Player
 	public static Vector2 Position { get; set; }
 	public static Vector2 Velocity { get; set; }
 
-	// Animations stuff
+	// Animation and texture stuff
 	// TODO: Make fps dependant on velocity
-	private static int animationFrame = 0;
 	private static Texture2D[] animationFrames;
+	private static Texture2D idleTexture;
+	private static int animationFrame = 0;
 	private static float animationFps = 10f;
 	private static double timeSinceLastAnimationFrame;
 
@@ -44,13 +45,16 @@ class Player
 		const int animationFrameCount = 4;
 		animationFrames = new Texture2D[animationFrameCount];
 		const string animationPath = "./assets/texture/player/walk-";
+		timeSinceLastAnimationFrame = Raylib.GetTime();
 
 		// Load in all of the animation frames
 		for (int i = 0; i < animationFrameCount; i++)
 		{
 			animationFrames[i] = Raylib.LoadTexture(animationPath + i + ".png");
 		}
-		timeSinceLastAnimationFrame = Raylib.GetTime();
+
+		// Load in the other textures
+		idleTexture = Raylib.LoadTexture("./assets/texture/player/idle.png");
 	}
 
 	public static void Update()
@@ -66,13 +70,38 @@ class Player
 	{
 		Raylib.DrawText($"Velocity: {Velocity}", 0, 0, 30, Color.Black);
 
-		Raylib.DrawTexture(animationFrames[animationFrame], (int)Position.X, (int)Position.Y, Color.White);
+		// Raylib.DrawTexture(animationFrames[animationFrame], (int)Position.X, (int)Position.Y, Color.White);
+
+		// Check for if the player is moving or not
+		if (Velocity.X == 0f)
+		{
+			// Draw the player normally standing
+			// still and facing the camera
+			// TODO: Reset the walk cycle to look more smooth/fluent
+			Raylib.DrawTextureV(idleTexture, Position, Color.White);
+		}
+		else
+		{
+			// Draw the player with the walking animation
+			// depending on what direction they are going
+			Rectangle source = new Rectangle(0f, 0f, width, height);
+
+			// Flip texture to make it look like walking left
+			if (Velocity.X < 0) source.Width = -width;
+
+			// Draw the player
+			Raylib.DrawTextureRec(animationFrames[animationFrame], source, Position, Color.White);
+		}
+
 	}
 
 	public static void CleanUp()
 	{
 		// Unload all of the animation frames
 		foreach (Texture2D frame in animationFrames) Raylib.UnloadTexture(frame);
+
+		// Unload all of the other textures
+		Raylib.UnloadTexture(idleTexture);
 	}
 
 
