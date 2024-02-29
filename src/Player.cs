@@ -5,6 +5,7 @@ class Player
 {
 	// Camera stuff
 	public static Camera2D Camera;
+	private static Vector2 cameraOffset = new Vector2(100f, -50f);
 
 	private static float mass = 45f;
 	private static float moveForce;
@@ -36,7 +37,6 @@ class Player
 		};
 
 		// Set the forces dependant on the mass
-		// moveForce = mass * 10.5f;
 		moveForce = mass * 10.5f;
 		jumpForce = mass * 10f;
 
@@ -54,23 +54,21 @@ class Player
 		}
 
 		// Load in the other textures
+		// TODO: Idle animation
 		idleTexture = Raylib.LoadTexture("./assets/texture/player/idle.png");
 	}
 
 	public static void Update()
 	{
 		Movement();
-		Animate();
 
 		// Make the camera follow the player
-		Camera.Target = Position;
+		Camera.Target = Position + cameraOffset;
 	}
 
 	public static void Render()
 	{
 		Raylib.DrawText($"Velocity: {Velocity}", 0, 0, 30, Color.Black);
-
-		// Raylib.DrawTexture(animationFrames[animationFrame], (int)Position.X, (int)Position.Y, Color.White);
 
 		// Check for if the player is moving or not
 		if (Velocity.X == 0f)
@@ -82,6 +80,10 @@ class Player
 		}
 		else
 		{
+			// Animate the player
+			//! Animations are one frame behind because of this, but it's much better for performance
+			Animate();
+
 			// Draw the player with the walking animation
 			// depending on what direction they are going
 			Rectangle source = new Rectangle(0f, 0f, width, height);
