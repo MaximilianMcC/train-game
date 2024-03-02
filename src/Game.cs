@@ -24,7 +24,6 @@ class Game
 		CleanUp();
 	}
 
-
 	private static void Start()
 	{
 		// Make a render texture to

@@ -2,88 +2,89 @@ using Raylib_cs;
 
 class Map
 {
-	public static List<Texture2D> Foreground;
-	public static List<Texture2D> Midground;
-	public static List<Texture2D> Background;
-
-	private static List<Texture2D> textures;
-	private static int mapWidth = 0;
+	private static Dictionary<char, Texture2D?> tiles = new Dictionary<char, Texture2D?>();
+	private static Texture2D mapTexture;
 
 	public static void LoadMap(string filePath)
 	{
-		// Store all of the different layers of the map
-		Foreground = new List<Texture2D>();
-		Midground = new List<Texture2D>();
-		Background = new List<Texture2D>();
-
-		// Open the map file and get the contents
+		// Open the map file
 		string[] mapData = File.ReadAllLines(filePath);
 
-		// Store all of the tiles
-		Dictionary<int, Texture2D> tiles = new Dictionary<int, Texture2D>();
-		textures = new List<Texture2D>();
 
-		// Loop over every line to get its data
+		// Store the identifier, and the texture of a tile
+		tiles = new Dictionary<char, Texture2D?>();
+		int width = 0;
+
+		// Store the tiles in the map as individual textures
+		List<Texture2D?> map = new List<Texture2D?>();
+
+		// Loop through every line in the
+		// file and extract it's information
 		foreach (string line in mapData)
 		{
-			// Check for if the current line has a
-			// comment and get rid of it
-			if (line.StartsWith('#')) continue;
-			//! if (line.Contains('#')) line = line.Split('#')[0];
+			// Ignore the current line if there is a comment
+			// TODO: Also support inline comments
+			if (line.StartsWith("#")) continue;
 
-			// Check for if it's defining a tile
-			if (line.Contains(':'))
+			// Check for if we're defining a tile, or
+			// if we're showing the map
+			//? Not using guard clause here because it's better for readability
+			if (line.Contains(":"))
 			{
-				// Split the line to get the key, and
-				// the texture location
-				string[] tileInfo = line.Split(":");
-				int key = int.Parse(tileInfo[0]);
-				string texturePath = tileInfo[1];
+				// Split the tile into an identifier, and texture
+				string[] data = line.Trim().Split(":");
+				char identifier = data[0].Trim()[0];
+				string texturePath = data[1];
 
-				// TODO: Check for if there is no texture, and skip it
-
-				// Load in the texture
-				// ! this might be loading in the texture twice because of the dictionary but idk
-				Texture2D texture = Raylib.LoadTexture(texturePath);
-				textures.Add(texture);
+				// Load in the texture if a
+				// texture path was supplied
+				Texture2D? texture = null;
+				if (texturePath != "") texture = Raylib.LoadTexture(texturePath);
 
 				// Add the tile to the list of tiles
-				tiles.Add(key, texture);
-				continue;
+				tiles.Add(identifier, texture);
+				Console.WriteLine($"Loaded '{identifier}' tile as {texturePath}!!");
 			}
-
-			// See if the map width has grown
-			int currentWidth = line.Length;
-			if (mapWidth > currentWidth) mapWidth = currentWidth;
-
-			// Split each individual tile in the
-			// current row of the map
-			foreach (string tileIdentifier in line.Split(""))
+			else
 			{
-				// Get the corresponding texture to the tile thingy
-				// TODO: Make tile dict use char instead of int
-				// TODO: Error handling for unknown tile identifier thing
-				Console.WriteLine(tileIdentifier);
-				// Texture2D tile = tiles[tileIdentifier];
+				// Check for if the map width has been extended
+				if (line.Length > width) width = line.Length;
 
-				// Add the tile to the map
-				// TODO: Control wether we add to the foreground, midground, or background
-				// Midground.Add(tile);
+				// Get the current line and split it up into
+				// each character/tile for iterating over
+				foreach (char tileIdentifier in line.ToCharArray())
+				{
+					// Check for if a tile with the identifier exists
+					if (!tiles.ContainsKey(tileIdentifier)) continue;
+
+					// Add the tile to the map
+					// TODO: Could store chars instead of textures. Might be faster
+					map.Add(tiles[tileIdentifier].Value);
+				}
 			}
+
+			// Bake the map into a single texture
+			// to reduce draw calls
+			
 		}
 	}
 
-	public static void Render()
-	{
-		
-	}
+
 
 	public static void CleanUp()
 	{
-		// Unload all the textures
-		foreach (Texture2D texture in textures)
+		// Unload all of the tiles
+		foreach (KeyValuePair<char, Texture2D?> tile in tiles)
 		{
-			Raylib.UnloadTexture(texture);
+			if (tile.Value == null) continue;
+			Raylib.UnloadTexture((Texture2D)tile.Value);
 		}
+	}
+
+
+
+	private static Texture2D BakeMap(List<Texture2D?> tiles, int width)
+	{
+		return 	new Texture2D()  ;
 	}
 }
