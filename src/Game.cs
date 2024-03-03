@@ -52,8 +52,8 @@ class Game
 		Raylib.BeginMode2D(Player.Camera);
 		Raylib.ClearBackground(Color.Magenta);
 
-		Player.Render();
 		Map.Render();
+		Player.Render();
 
 		Raylib.EndMode2D();
 		Raylib.EndTextureMode();
