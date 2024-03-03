@@ -29,7 +29,7 @@ class Map
 			// Check for if we're defining a tile, or
 			// if we're showing the map
 			//? Not using guard clause here because it's better for readability
-			if (line.Contains(":"))
+			if (line.Contains(':'))
 			{
 				// Split the tile into an identifier, and texture
 				string[] data = line.Trim().Split(":");
@@ -43,32 +43,36 @@ class Map
 
 				// Add the tile to the list of tiles
 				tiles.Add(identifier, texture);
-				Console.WriteLine($"Loaded '{identifier}' tile as {texturePath}!!");
+				Console.WriteLine($"Loaded tile");
 			}
-			else
+
+			// Check for if the map width has been extended
+			if (line.Length > width) width = line.Length;
+
+			// Get the current line and split it up into
+			// each character/tile for iterating over
+			foreach (char tileIdentifier in line.ToCharArray())
 			{
-				// Check for if the map width has been extended
-				if (line.Length > width) width = line.Length;
+				// Check for if a tile with the identifier exists
+				if (!tiles.ContainsKey(tileIdentifier)) continue;
 
-				// Get the current line and split it up into
-				// each character/tile for iterating over
-				foreach (char tileIdentifier in line.ToCharArray())
-				{
-					// Check for if a tile with the identifier exists
-					if (!tiles.ContainsKey(tileIdentifier)) continue;
-
-					// Add the tile to the map
-					// TODO: Could store chars instead of textures. Might be faster
-					map.Add(tiles[tileIdentifier].Value);
-				}
+				// Add the tile to the map
+				// TODO: Could store chars instead of textures. Might be faster
+				map.Add(tiles.ContainsKey(tileIdentifier) ? tiles[tileIdentifier] : null);
 			}
+
 
 			// Bake the map into a single texture
 			// to reduce draw calls
-			
+			mapTexture = BakeMap(map, width);
 		}
 	}
 
+
+	public static void Render()
+	{
+		Raylib.DrawTexture(mapTexture, 0, 0, Color.White);
+	}
 
 
 	public static void CleanUp()
@@ -85,6 +89,30 @@ class Map
 
 	private static Texture2D BakeMap(List<Texture2D?> tiles, int width)
 	{
-		return 	new Texture2D()  ;
+		// Make the render texture to store the map
+		int height = tiles.Count / width;
+		RenderTexture2D renderTexture = Raylib.LoadRenderTexture(width, height);
+
+		// Loop over every tile in the tiles list
+		// and draw them onto the render texture
+		Raylib.BeginTextureMode(renderTexture);
+		for (int i = 0; i < tiles.Count; i++)
+		{
+			// Check for if the tile actually has a texture
+			if (tiles[i] == null) continue;
+
+			// Get the coordinates of the tile
+			int x = i % width;
+			int y = i / width;
+
+			// Draw the tile
+			Raylib.DrawTexture((Texture2D)tiles[i], x, y, Color.White);
+		}
+		Raylib.EndTextureMode();
+
+		// Return the baked map
+		Texture2D map = renderTexture.Texture;
+		Raylib.UnloadRenderTexture(renderTexture);
+		return map;
 	}
 }
