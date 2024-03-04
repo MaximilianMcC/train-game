@@ -9,6 +9,9 @@ class Game
 
 	public static void Run()
 	{
+		//!
+		Raylib.SetTraceLogLevel(TraceLogLevel.Error);
+
 		// Make the raylib window and whatnot
 		Raylib.SetConfigFlags(ConfigFlags.ResizableWindow);
 		Raylib.SetConfigFlags(ConfigFlags.AlwaysRunWindow);
@@ -52,6 +55,7 @@ class Game
 		Raylib.BeginMode2D(Player.Camera);
 		Raylib.ClearBackground(Color.Magenta);
 
+
 		Map.Render();
 		Player.Render();
 
@@ -67,6 +71,7 @@ class Game
 		// Draw UI stuff
 		Raylib.DrawText($"FPS: {Raylib.GetFPS()}", 10, 10, 30, Color.Black);
 		Raylib.DrawText($"Position: {Player.Position}", 10, 40, 30, Color.Black);
+
 
 		Raylib.EndDrawing();
 	}
