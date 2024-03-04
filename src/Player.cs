@@ -5,7 +5,8 @@ class Player
 {
 	// Camera stuff
 	public static Camera2D Camera;
-	private static Vector2 cameraOffset = new Vector2(100f, -50f);
+	// private static Vector2 cameraOffset = new Vector2(100f, -50f);
+	private static Vector2 cameraOffset = new Vector2(0f, 0f);
 
 	private static float mass = 45f;
 	private static float moveForce;
