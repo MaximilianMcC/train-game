@@ -5,9 +5,9 @@ using Raylib_cs;
 
 class Map
 {	
-	private static List<Texture2D?> map = new List<Texture2D?>();
-	private static int width = 0;
-	private static readonly int tileSize = 16;
+	public static List<Tile> Tiles = new List<Tile>();
+	public static readonly int TileSize = 16; //? Could be stored as vector
+	public static int Width = 0;
 
 	public static void LoadMap(string filePath)
 	{
@@ -31,7 +31,7 @@ class Map
 		foreach (string line in mapLines)
 		{
 			// Check for if the width has increased
-			if (line.Length > width) width = line.Length;
+			if (line.Length > Width) Width = line.Length;
 
 			// Loop through every tile in the line
 			foreach (char tileIdentifier in line)
@@ -42,7 +42,7 @@ class Map
 				if (tile == null) continue;
 
 				// Add the tile to the map
-				map.Add(tile.Texture);
+				Tiles.Add(tile);
 			}
 		}
 	}
@@ -53,18 +53,18 @@ class Map
 	{
 		// Loop over every tile in the map and render it
 		// TODO: Split up the map into 'chunks' and bake them
-		for (int i = 0; i < map.Count; i++)
+		for (int i = 0; i < Tiles.Count; i++)
 		{
 			// Check for if the current tile has a texture
-			if (map[i] == null) continue;
+			if (Tiles[i].Texture == null) continue;
 
 			// Get the coordinates of the current tile
-			Vector2 tilePosition = new Vector2(i % width, i / width) * tileSize;
+			Vector2 tilePosition = new Vector2(i % Width, i / Width) * TileSize;
 
 			// Check for if the tile is within a certain
 			// distance of the player then draw it
 			if (Utils.Distance(Player.Position, tilePosition) > (Game.GameWidth / 2)) return;
-			Raylib.DrawTextureV((Texture2D)map[i], tilePosition, Color.White);
+			Raylib.DrawTextureV((Texture2D)Tiles[i].Texture, tilePosition, Color.White);
 		}
 	}
 

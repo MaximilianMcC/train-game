@@ -127,6 +127,7 @@ class Player
 		if (Math.Abs(Velocity.X) < 0.1f) Velocity = new Vector2(0f, Velocity.Y);
 
 		// Apply the movement
+		//? Velocity is always applied no matter if the player is colliding or not
 		Velocity += (direction * moveForce) * Raylib.GetFrameTime();
 		
 		// Actually move the player
@@ -136,6 +137,28 @@ class Player
 
 	private static bool Collision(Vector2 newPosition)
 	{
+		// Make the players collision rectangle
+		Rectangle collisionRectangle = new Rectangle(newPosition, width, height);
+
+		// TODO: Maybe only check for tiles close to player
+		// Loop through every tile
+		for (int i = 0; i < Map.Tiles.Count; i++)
+		{
+			// Check for if the tile has collision
+			if (Map.Tiles[i].Collision == false) continue;
+
+			// Get the current cooridnates and collision
+			// for the current tile
+			Vector2 tilePosition = new Vector2(i % Map.Width, i / Map.Width) * Map.TileSize;
+			Rectangle tileRectangle = new Rectangle(tilePosition, Map.TileSize, Map.TileSize);
+
+			// Check for if the players new position
+			// is colliding with the current tile
+			if (Raylib.CheckCollisionRecs(collisionRectangle, tileRectangle) == true) return true;
+		}
+
+
+		// Player didn't hit anything
 		return false;
 	}
 
