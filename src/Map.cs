@@ -52,7 +52,6 @@ class Map
 	public static void Render()
 	{
 		// Loop over every tile in the map and render it
-		// TODO: Only render every tile on screen
 		// TODO: Split up the map into 'chunks' and bake them
 		for (int i = 0; i < map.Count; i++)
 		{
@@ -60,12 +59,12 @@ class Map
 			if (map[i] == null) continue;
 
 			// Get the coordinates of the current tile
-			int x = i % width * tileSize;
-			int y = i / width * tileSize;
+			Vector2 tilePosition = new Vector2(i % width, i / width) * tileSize;
 
-			// Draw the tile
-			// TODO: Check for if the tile is within a certain distance of the player
-			Raylib.DrawTexture((Texture2D)map[i], x, y, Color.White);
+			// Check for if the tile is within a certain
+			// distance of the player then draw it
+			if (Utils.Distance(Player.Position, tilePosition) > (Game.GameWidth / 2)) return;
+			Raylib.DrawTextureV((Texture2D)map[i], tilePosition, Color.White);
 		}
 	}
 
@@ -73,11 +72,8 @@ class Map
 	{
 		// TODO: Unload all of the textures
 	}
-
-
-
-
 }
+
 
 
 class Tile

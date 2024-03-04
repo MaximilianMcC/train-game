@@ -5,8 +5,10 @@ class Game
 {
 	// public const int GameWidth = 512;
 	// public const int GameHeight = 256;
-	public const int GameWidth = 128;
-	public const int GameHeight = 64;
+	// public const int GameWidth = 128;
+	// public const int GameHeight = 64;
+	public const int GameWidth = 256;
+	public const int GameHeight = 128;
 	private static RenderTexture2D gameView;
 
 	public static void Run()

@@ -6,14 +6,16 @@ class Player
 	// Camera stuff
 	public static Camera2D Camera;
 	// private static Vector2 cameraOffset = new Vector2(100f, -50f);
-	private static Vector2 cameraOffset = new Vector2(0f, 0f);
+	private static Vector2 cameraOffset = new Vector2(16f, -16f);
 
 	private static float mass = 45f;
 	private static float moveForce;
 	private static float jumpForce;
 
-	private static float width = 32f;
-	private static float height = 64f;
+	// private static float width = 32f;
+	// private static float height = 64f;
+	private static float width = 16f;
+	private static float height = 32f;
 
 	public static Vector2 Position { get; set; }
 	public static Vector2 Velocity { get; set; }
@@ -38,8 +40,8 @@ class Player
 		};
 
 		// Set the forces dependant on the mass
-		moveForce = mass * 10.5f;
-		jumpForce = mass * 10f;
+		moveForce = mass * 5.5f;
+		jumpForce = mass * 2f;
 
 		// Get animation info
 		// TODO: Do somewhere else. Maybe in JSON or just by looking at directory
