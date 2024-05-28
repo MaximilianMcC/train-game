@@ -1,19 +1,17 @@
-# Platformer
-I have never actually finished a game. I will be making this game over the course of one week, and at the end of the week I hopefully will have a finished game. I will not work on the game anymore after the week.
+# Farming game
+Very simple farming game where you make and maintain a very simple farm. The entire point of this game is to make a fully finished game. It has a very small scope on purpose.
 
-# Lore
-You are an explorer who must traverse through old ancient temples. These temples are full of difficult platforming challenges, enemies, and puzzles.
+## TODO
+- [x] Setup raylib
+- [ ] Player movement
+- [ ] UI and Day/night cycle
+- [ ] Hardcoded map
+- [ ] Crop planting
+- [ ] Crop growing
+- [ ] Crop harvesting
+- [ ] Music and Sounds
+- [ ] Buying and selling from the shop
+- [ ] Saving/loading
 
-# Ideas
-- Crates that can be broken for supplies
-- Different enemies
-- Snappy movement system
-- At least three different levels (jungle, desert, something else)
-- Menu screens
-- Swinging on rope
-- Climbing ladders
-- Fall damage
-- Swimming
-- Ambient sounds, music
-- Controller support
-- Different materials with different friction levels
+## Concept art
+![map thingy idk](https://i.imgur.com/nvKT9Hl.png)
