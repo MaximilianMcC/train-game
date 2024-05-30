@@ -1,0 +1,27 @@
+24
+24
+---
+a grass1 n
+b grass2 n
+c grass3 n
+---
+abcdaaaacaaaabaaaacaaaaa
+abaaaaaaaaacaaaaaaaaaaaa
+aaabcbaaaabaaaabacaaaaaa
+acaaaaaaaaaaacaaaaaabaaa
+abaabaaacaabaaaaabaaaaaa
+acaaaaaaaaaaaaaaaaaaaaaa
+baababaaaabaabacaabaaabb
+aaaaaaacaaabaaaacaaaacaa
+aabaaaaaaaaaaaacaaaaaaaa
+aaaaacaaaaaabaabaaaacaaa
+baaaaabaaaacaaaaaaaaaaaa
+acaaaaaaaaaaaaaabaaaaaaa
+aaaabacabaabaaaaaacabaaa
+acaabaaaaaacaaaaaaaaaaaa
+acaaaaaaaaabaaaaaaabaaba
+aaaabaaaaaabaaaacaaaaaaa
+aabacaaaacabaaaaaaaaabab
+abaaaaaaaaaaaaaaaaaaaaaa
+acaababaaaaaaacaaaacaaaa
+aaaaaaacaaaaaaaaabaaaaaa
