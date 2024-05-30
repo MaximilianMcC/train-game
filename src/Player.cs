@@ -16,12 +16,26 @@ class Player
         texture = Raylib.LoadTexture("./assets/texture/player.png");
 
         // Define the players body
-        Body = new Rectangle(0f, 0f, 64f, 80f);
+        Body = new Rectangle(0f, 0f, 16f, 24f);
+
+        // Setup the camera
+        Camera = new Camera2D()
+        {
+            Offset = new Vector2(Raylib.GetScreenWidth(), Raylib.GetScreenHeight()) / 2,
+            Rotation = 0f,
+            Zoom = 4f
+        };
     }
 
     public static void Update()
     {
+        // Move the player
         Movement();
+
+        // Update the cameras position so that it follows
+        // the player wherever they go
+        // TODO: Maybe only make it track if the player starts to go out of bounds if that makes any sense
+        Camera.Target = Body.Position + (Body.Size / 2f);
     }
 
     public static void Render()

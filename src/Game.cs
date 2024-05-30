@@ -36,9 +36,9 @@ class Game
     private static void Render()
     {
         // Draw world stuff (follows the player in the world)
-        // Raylib.BeginMode2D(Player.Camera);
+        Raylib.BeginMode2D(Player.Camera);
         Player.Render();
-        // Raylib.EndMode2D();
+        Raylib.EndMode2D();
 
         // Draw UI stuff (hasn't got a world position)
         Raylib.DrawText("im farm", 10, 10, 30, Color.White);
