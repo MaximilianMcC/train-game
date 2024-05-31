@@ -3,9 +3,9 @@ Very simple farming game where you make and maintain a very simple farm. The ent
 
 ## TODO
 - [x] Setup raylib
-- [ ] Player movement
+- [x] Player movement
 - [ ] UI and Day/night cycle
-- [ ] Hardcoded map
+- [x] Map loading from file
 - [ ] Crop planting
 - [ ] Crop growing
 - [ ] Crop harvesting

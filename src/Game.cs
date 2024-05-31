@@ -48,6 +48,7 @@ class Game
 
     private static void CleanUp()
     {
+        World.CleanUp();
         Player.CleanUp();
 
         // Kill all the raylib stuff

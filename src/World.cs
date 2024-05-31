@@ -124,4 +124,10 @@ class World
 			Raylib.DrawTexture(map[i].Texture, x, y, Color.White);
 		}
 	}
+
+	public static void CleanUp()
+	{
+		// Loop through every tile and unload the texture
+		tileDefinitions.ForEach(tile => Raylib.UnloadTexture(tile.Texture));
+	}
 }

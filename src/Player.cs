@@ -8,7 +8,7 @@ class Player
     private static Texture2D texture;
 
     public static Rectangle Body;
-    private static float speed = 350f;
+    private static float speed = 85;
 
     public static void Start()
     {
