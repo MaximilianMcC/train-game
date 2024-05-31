@@ -69,14 +69,25 @@ class Player
 		if (movement == Vector2.Zero) return;
 		movement = (Vector2.Normalize(movement) * speed) * Raylib.GetFrameTime();
 
-		// Apply the movement to the players body
-		// TODO: See if theres a better way to add the position thingy
+		// Store the current body state so we can
+		// add the new positions and whatnot on it. This
+		// is done because we check x and y separately
+		// so the player can still "slide" if they aren't
+		// colliding on a certain axis. Otherwise they would
+		// get fully stuck and have to reverse out of it
 		Rectangle newBody = Body;
-		newBody.Position += movement;
 
-		// Check for if the new position is valid and
-		// if it is then update the body
+		// Check for x collision
+		// TODO: Don't make a new vector for this
+		newBody.Position += new Vector2(movement.X, 0);
 		if (World.Colliding(newBody)) return;
+
+		// Check for y collision
+		newBody.Position += new Vector2(0, movement.Y);
+		if (World.Colliding(newBody)) return;
+
+		// Assign the new body to move the player
+		// (there was no collision (all goods (moving rn)))
 		Body = newBody;	
 	}
 }
