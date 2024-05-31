@@ -26,6 +26,7 @@ class Game
     private static void Start()
     {
         Player.Start();
+        World.Start();
     }
 
     private static void Update()
