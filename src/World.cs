@@ -3,8 +3,17 @@ using Raylib_cs;
 
 class World
 {
-	private static Vector2 dimensions;
+	private static int width;
+	private static int height;
 	private static List<Tile> tileDefinitions;
+	private static Tile[] map;
+
+	public struct Tile
+	{
+		public char Character;
+		public Texture2D Texture;
+		public bool HasCollision;
+	}
 
 	public static void Start()
 	{
@@ -13,10 +22,8 @@ class World
 		int mapIndex = 0;
 
 		// Get the dimensions
-		dimensions = new Vector2(
-			int.Parse(mapFile[mapIndex++]),
-			int.Parse(mapFile[mapIndex++])
-		);
+		width = int.Parse(mapFile[mapIndex++]);
+		height = int.Parse(mapFile[mapIndex++]);
 
 		// Skip over the separator line
 		mapIndex++;
@@ -60,13 +67,42 @@ class World
 			HasCollision = false
 		};
 		tileDefinitions.Add(debugTile);
-	}
 
+		// Make an array the same size as the map
+		// and store all of the tiles in it
+		map = new Tile[width * height];
 
-	struct Tile
-	{
-		public char Character;
-		public Texture2D Texture;
-		public bool HasCollision;
+		// Loop through every character in the map and
+		// get its corresponding tile, then add that
+		// tile to the previously created tiles array
+		int index = 0;
+		for (int y = mapIndex; y < height; y++)
+		{
+			for (int x = 0; x < width; x++)
+			{
+				// Get the current character
+				char character = mapFile[y][x];
+
+				// Check for if the current character has
+				// a corresponding tile thats been defined,
+				// otherwise just use a debug tile
+				Tile currentTile = debugTile;
+				foreach (Tile tile in tileDefinitions)
+				{
+					if (tile.Character == character)
+					{
+						// Set the current tile to the
+						// correct tile, then exit the 
+						// loop early (already done)
+						currentTile = tile;
+						break;
+					}
+				}
+
+				// Add the tile to the array
+				map[index] = currentTile;
+				index++;
+			}
+		}
 	}
 }
