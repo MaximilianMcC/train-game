@@ -4,13 +4,14 @@
 a grass1 n
 b grass2 n
 c grass3 n
+u horizontal-fence y
 ---
 abcdaaaacaaaabaaaacaaaaa
 abaaaaaaaaacaaaaaaaaaaaa
-aaabcbaaaabaaaabacaaaaaa
+auuucauuaabaaaabacaaaaaa
 acaaaaaaaaaaacaaaaaabaaa
 abaabaaacaabaaaaabaaaaaa
-acaaaaaaaaaaaaaaaaaaaaaa
+acaaaaaaaauuuuuuuaaaaaaa
 baababaaaabaabacaabaaabb
 aaaaaaacaaabaaaacaaaacaa
 aabaaaaaaaaaaaacaaaaaaaa

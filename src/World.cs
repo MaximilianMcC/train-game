@@ -1,3 +1,4 @@
+using System.Numerics;
 using Raylib_cs;
 
 class World
@@ -129,5 +130,33 @@ class World
 	{
 		// Loop through every tile and unload the texture
 		tileDefinitions.ForEach(tile => Raylib.UnloadTexture(tile.Texture));
+	}
+
+
+	// Check for if the player is colliding with a tile
+	// that hasn't got collision
+	public static bool Colliding(Rectangle newBody)
+	{
+		// Loop through every tile in the map
+		// TODO: Only check the tiles surrounding the player
+		for (int i = 0; i < map.Length; i++)
+		{
+			// Ignore the tile if it hasn't got collision
+			if (map[i].HasCollision == false) continue;
+
+			// Calculate the position and whatnot
+			// TODO: Put in the struct so all this stuff hasn't got to be calculated every frame
+			Rectangle tileRectangle = new Rectangle(
+				(i % width) * tileSize,
+				(i / width) * tileSize,
+				tileSize, tileSize
+			);
+			
+			// Actually do the collision detection
+			if (Raylib.CheckCollisionRecs(tileRectangle, newBody)) return true;
+		}
+
+		// There were no collisions
+		return false;
 	}
 }
