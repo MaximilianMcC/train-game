@@ -1,4 +1,3 @@
-using System.Numerics;
 using Raylib_cs;
 
 class World
@@ -8,6 +7,9 @@ class World
 	private static List<Tile> tileDefinitions;
 	private static Tile[] map;
 
+	// TODO: Put in map file
+	private static int tileSize = 16;
+
 	public struct Tile
 	{
 		public char Character;
@@ -15,6 +17,7 @@ class World
 		public bool HasCollision;
 	}
 
+	// Load the map
 	public static void Start()
 	{
 		// Open the map file
@@ -103,6 +106,22 @@ class World
 				map[index] = currentTile;
 				index++;
 			}
+		}
+	}
+	
+	// Draw the map
+	// TODO: Maybe bake the map into bigger chunks
+	public static void Render()
+	{
+		// Loop over every tile in the map
+		for (int i = 0; i < map.Length; i++)
+		{
+			// Get its position
+			int x = (i % width) * tileSize;
+			int y = (i / width) * tileSize;
+
+			// Actually draw it
+			Raylib.DrawTexture(map[i].Texture, x, y, Color.White);
 		}
 	}
 }

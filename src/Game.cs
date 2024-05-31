@@ -38,6 +38,7 @@ class Game
     {
         // Draw world stuff (follows the player in the world)
         Raylib.BeginMode2D(Player.Camera);
+        World.Render();
         Player.Render();
         Raylib.EndMode2D();
 
