@@ -13,6 +13,7 @@ class Game
 		Raylib.SetConfigFlags(ConfigFlags.ResizableWindow | ConfigFlags.AlwaysRunWindow);
 		Raylib.InitWindow((int)Size.X, (int)Size.Y, "farmer (farming rn)");
 		Raylib.SetTargetFPS(144);
+		Raylib.SetExitKey(KeyboardKey.Null);
 
 		// Main game loop
 		Start();
@@ -49,6 +50,7 @@ class Game
 	private static void Update()
 	{
 		Player.Update();
+		GameManager.Update();
 	}
 
 	private static void Render()
@@ -61,6 +63,7 @@ class Game
 
 		// Draw UI stuff (hasn't got a world position)
 		Raylib.DrawText("im farm", 10, 10, 30, Color.White);
+		GameManager.Render();
 	}
 
 	private static void CleanUp()
