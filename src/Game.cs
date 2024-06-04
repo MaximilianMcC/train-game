@@ -59,6 +59,7 @@ class Game
 		Raylib.BeginMode2D(Player.Camera);
 		World.Render();
 		Player.Render();
+		GameManager.DrawTime();
 		Raylib.EndMode2D();
 
 		// Draw UI stuff (hasn't got a world position)
