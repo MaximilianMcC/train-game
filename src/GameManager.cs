@@ -84,7 +84,7 @@ class GameManager
 		Raylib.DrawLineEx(new Vector2(x, y), new Vector2(x, y + height), 5f, Color.Beige);
 	}
 
-	public static void DrawTime()
+	public static void DrawTimeOverlay()
 	{
 		// Make a dark overlay to put over everything and change
 		// its opacity depending on the time to give the illusion

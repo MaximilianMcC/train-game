@@ -51,6 +51,7 @@ class Game
 	{
 		Player.Update();
 		GameManager.Update();
+		Farm.Update();
 	}
 
 	private static void Render()
@@ -58,8 +59,9 @@ class Game
 		// Draw world stuff (follows the player in the world)
 		Raylib.BeginMode2D(Player.Camera);
 		World.Render();
+		Farm.Render();
 		Player.Render();
-		GameManager.DrawTime();
+		// GameManager.DrawTimeOverlay();
 		Raylib.EndMode2D();
 
 		// Draw UI stuff (hasn't got a world position)

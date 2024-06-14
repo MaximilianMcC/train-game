@@ -15,3 +15,6 @@ Very simple farming game where you make and maintain a very simple farm. The ent
 
 ## Concept art
 ![map thingy idk](https://i.imgur.com/nvKT9Hl.png)
+
+
+![My wakatime stats](https://github-readme-stats.vercel.app/api/wakatime?username=maximilianmcc&layout=compact&card_width=320)

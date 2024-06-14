@@ -3,13 +3,13 @@ using Raylib_cs;
 
 class World
 {
-	private static int width;
-	private static int height;
+	public static int Width;
+	public static int Height;
 	private static List<Tile> tileDefinitions;
 	private static Tile[] map;
 
 	// TODO: Put in map file
-	private static int tileSize = 16;
+	public static int TileSize = 16;
 
 	public struct Tile
 	{
@@ -26,8 +26,8 @@ class World
 		int mapIndex = 0;
 
 		// Get the dimensions
-		width = int.Parse(mapFile[mapIndex++]);
-		height = int.Parse(mapFile[mapIndex++]);
+		Width = int.Parse(mapFile[mapIndex++]);
+		Height = int.Parse(mapFile[mapIndex++]);
 
 		// Skip over the separator line
 		mapIndex++;
@@ -74,15 +74,15 @@ class World
 
 		// Make an array the same size as the map
 		// and store all of the tiles in it
-		map = new Tile[width * height];
+		map = new Tile[Width * Height];
 
 		// Loop through every character in the map and
 		// get its corresponding tile, then add that
 		// tile to the previously created tiles array
 		int index = 0;
-		for (int y = mapIndex; y < height; y++)
+		for (int y = mapIndex; y < Height; y++)
 		{
-			for (int x = 0; x < width; x++)
+			for (int x = 0; x < Width; x++)
 			{
 				// Get the current character
 				char character = mapFile[y][x];
@@ -118,8 +118,8 @@ class World
 		for (int i = 0; i < map.Length; i++)
 		{
 			// Get its position
-			int x = (i % width) * tileSize;
-			int y = (i / width) * tileSize;
+			int x = (i % Width) * TileSize;
+			int y = (i / Width) * TileSize;
 
 			// Actually draw it
 			Raylib.DrawTexture(map[i].Texture, x, y, Color.White);
@@ -147,9 +147,9 @@ class World
 			// Calculate the position and whatnot
 			// TODO: Put in the struct so all this stuff hasn't got to be calculated every frame
 			Rectangle tileRectangle = new Rectangle(
-				(i % width) * tileSize,
-				(i / width) * tileSize,
-				tileSize, tileSize
+				(i % Width) * TileSize,
+				(i / Width) * TileSize,
+				TileSize, TileSize
 			);
 			
 			// Actually do the collision detection
