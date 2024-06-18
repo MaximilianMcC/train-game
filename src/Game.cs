@@ -3,6 +3,7 @@ using Raylib_cs;
 
 class Game
 {
+	private static Sprite test;
 
 	public static void Run()
 	{
@@ -30,23 +31,27 @@ class Game
 
 	private static void Start()
 	{
-
+		test = new Sprite("./assets/sprites/box.png", 16, 16);
+		test.Position = new Vector2(200);
 	}
 
 	private static void Update()
 	{
-
+		test.Rotation += 0.1f;
 	}
 
 	private static void Render()
 	{
 		// Clear the previous thing drawn
 		Raylib.ClearBackground(Color.Magenta);
-		Raylib.DrawText($"im farm", 10, 10, 45, Color.White);
+		Raylib.DrawText("im farm", 10, 10, 45, Color.White);
+
+		test.Render();
 	}
 
 	private static void CleanUp()
 	{
+		test.CleanUp();
 
 		// Kill all the raylib stuff
 		//! Make sure this is done last
