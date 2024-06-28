@@ -1,60 +1,44 @@
-using System.Numerics;
 using Raylib_cs;
 
 class Game
 {
-	private static Sprite test;
-
 	public static void Run()
 	{
-		// Raylib stuff
 		Raylib.SetTraceLogLevel(TraceLogLevel.Warning);
-		Raylib.SetConfigFlags(ConfigFlags.ResizableWindow | ConfigFlags.AlwaysRunWindow);
-		Raylib.InitWindow(800, 600, "farmer (farming rn)");
-		Raylib.SetTargetFPS(144);
-		Raylib.SetExitKey(KeyboardKey.Null);
+		Raylib.InitWindow(800, 600, "train game (traim)");
 
-		// Main game loop
 		Start();
-		while (!Raylib.WindowShouldClose())
+		while (Raylib.WindowShouldClose() == false)
 		{
-			// Update everything
 			Update();
-
-			// Draw everything
-			Raylib.BeginDrawing();
 			Render();
-			Raylib.EndDrawing();
 		}
 		CleanUp();
 	}
 
 	private static void Start()
 	{
-		test = new Sprite("./assets/sprites/box.png", 16, 16);
-		test.Position = new Vector2(200);
+
 	}
 
 	private static void Update()
 	{
-		test.Rotation += 0.1f;
+
 	}
 
 	private static void Render()
 	{
-		// Clear the previous thing drawn
+		Raylib.BeginDrawing();
 		Raylib.ClearBackground(Color.Magenta);
-		Raylib.DrawText("im farm", 10, 10, 45, Color.White);
 
-		test.Render();
+		Raylib.DrawText("train", 10, 10, 30, Color.White);
+
+		Raylib.EndDrawing();
 	}
 
 	private static void CleanUp()
 	{
-		test.CleanUp();
-
-		// Kill all the raylib stuff
-		//! Make sure this is done last
+		// Unload everything and whatnot
 		Raylib.CloseWindow();
 	}
 }
