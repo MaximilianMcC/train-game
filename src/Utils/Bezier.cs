@@ -7,11 +7,22 @@ class Bezier
 	public Vector2 MiddlePosition;
 	public Vector2 EndPosition;
 
+	// Make a bezier with a middle part (turn)
 	public Bezier(Vector2 startPosition, Vector2 middlePosition, Vector2 endPosition)
 	{
 		// Assign values
 		StartPosition = startPosition;
 		MiddlePosition = middlePosition;
+		EndPosition = endPosition;
+	}
+
+	// Make a bezier without a middle part (straight)
+	public Bezier(Vector2 startPosition, Vector2 endPosition)
+	{
+		// Assign values and make the middle position
+		// the middle of the two given positions
+		StartPosition = startPosition;
+		MiddlePosition = (startPosition + endPosition) / 2;
 		EndPosition = endPosition;
 	}
 
