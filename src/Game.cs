@@ -3,10 +3,13 @@ using Raylib_cs;
 
 class Game
 {
+
 	public static void Run()
 	{
 		Raylib.SetTraceLogLevel(TraceLogLevel.Warning);
-		Raylib.InitWindow(800, 600, "train game (traim)");
+		Raylib.SetConfigFlags(ConfigFlags.AlwaysRunWindow);
+		Raylib.InitWindow(800, 600, "the bro inglenook");
+		Raylib.SetTargetFPS(144);
 
 		Start();
 		while (Raylib.WindowShouldClose() == false)
@@ -19,19 +22,20 @@ class Game
 
 	private static void Start()
 	{
+		Inglenook.Start();
 	}
 
 	private static void Update()
 	{
-		
+		Inglenook.Update();
 	}
 
 	private static void Render()
 	{
 		Raylib.BeginDrawing();
-		Raylib.ClearBackground(Color.Magenta);
+		Raylib.ClearBackground(new Color(217, 224, 240, 255));
 
-		Raylib.DrawText("train", 10, 10, 30, Color.White);
+		Inglenook.Render();
 
 		Raylib.EndDrawing();
 	}
