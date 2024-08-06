@@ -3,28 +3,30 @@ using Raylib_cs;
 
 class Inglenook
 {
-	private static CatmullRomSpline test;
+	private static CubicBezier railway;
+	private static Train train;
 
 	public static void Start()
 	{
-		List<Vector2> points = new List<Vector2>()
-		{
-			new Vector2(100, 300),
-			new Vector2(200, 500),
-			new Vector2(400, 200),
-			new Vector2(600, 400),
-			new Vector2(700, 100)
-		};
-		test = new CatmullRomSpline(points);
+		// Make the railway
+		Vector2 startPoint = new Vector2(100, 500);
+        Vector2 startControl = new Vector2(300, 100);
+        Vector2 endPoint = new Vector2(700, 100);
+        Vector2 endControl = new Vector2(500, 500);
+		railway = new CubicBezier(startPoint, startControl, endPoint, endControl);
+
+		// Make the train
+		train = new Train(new List<CubicBezier> { railway });
 	}
 
 	public static void Update()
 	{
-		
+		train.Update();
 	}
 
 	public static void Render()
 	{
-		test.Draw(5f, Color.Blue);
+		railway.Draw(5f, Color.Blue);
+		train.Render();
 	}
 }
