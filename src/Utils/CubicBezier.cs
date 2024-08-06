@@ -4,13 +4,15 @@ using Raylib_cs;
 class CubicBezier
 {
 	public static int Samples = 1000;
-	public Vector2 StartPosition;
-	public Vector2 EndPosition;
-	public float ArcLength;
+	public Vector2 StartPosition { get; private set; }
+	public Vector2 EndPosition { get; private set; }
+	public float ArcLength { get; private set; }
 
+	private bool curved;
 	private Vector2 startControl;
 	private Vector2 endControl;
 
+	// Make a cubic bezier thats an actual curve thing
 	public CubicBezier(Vector2 startPosition, Vector2 startControlPoint, Vector2 endPosition, Vector2 endControlPoint)
 	{
 		// Get the start and end position of the curve
@@ -19,10 +21,28 @@ class CubicBezier
 
 		// Get the control points that are used to
 		// define the shape of the curve
+		curved = true;
 		startControl = startControlPoint;
 		endControl = endControlPoint;
 
 		// Calculate the total length/arc length of the curve
+		ArcLength = GetArcLength();
+	}
+
+	// Make a cubic bezier thats just a straight line
+	public CubicBezier(Vector2 startPosition, Vector2 endPosition)
+	{
+		// Get the start and end position of the curve
+		StartPosition = startPosition;
+		EndPosition = endPosition;
+
+		// Set the control points to be the same
+		// as the positions. This removes any curvature
+		curved = false;
+		startControl = startPosition;
+		endControl = endPosition;
+
+		// Calculate the total length/arc length
 		ArcLength = GetArcLength();
 	}
 
@@ -80,7 +100,18 @@ class CubicBezier
 
 	public void Draw(float thickness, Color color)
 	{
-		// Loop through every sample
+		Raylib.DrawCircleV(GetPositionFromDistance(ArcLength), 5f, Color.Red);
+
+		// If there is no curve then just draw a
+		// line to avoid doing heaps of extra work
+		if (curved == false)
+		{
+			Raylib.DrawLineEx(StartPosition, EndPosition, thickness, color);
+			return;
+		}
+
+		// Loop through every sample so that we can
+		// draw it with a curve
 		for (int i = 0; i <= Samples; i++)
 		{
 			// Convert the index to be in a range of 0-1
@@ -88,7 +119,7 @@ class CubicBezier
 			Vector2 position = GetBezierPoint(distance);
 
 			// Draw a circle at the current position
-			Raylib.DrawCircleV(position, thickness, color);
+			Raylib.DrawCircleV(position, (thickness / 2), color);
 		}
 	}
 }
