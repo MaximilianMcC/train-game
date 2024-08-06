@@ -36,15 +36,21 @@ class Train
 		{
 			// The current position is taken away so that we don't
 			// loose any progress at higher speeds
-			PositionOnCurrentTrack = track.ArcLength - PositionOnCurrentTrack;
-			CurrentTrackIndex++;
+			if (CurrentTrackIndex < railway.Count - 1)
+			{
+				PositionOnCurrentTrack = track.ArcLength - PositionOnCurrentTrack;
+				CurrentTrackIndex++;
+			}
 		}
 		else if (PositionOnCurrentTrack < 0)
 		{
 			// The current position is added so that we don't
 			// loose any progress at higher speeds
-			PositionOnCurrentTrack = track.ArcLength + PositionOnCurrentTrack;
-			CurrentTrackIndex--;
+			if (CurrentTrackIndex > 0) 
+			{
+				PositionOnCurrentTrack = track.ArcLength + PositionOnCurrentTrack;
+				CurrentTrackIndex--;
+			}
 		}
 
 		// Update the position based on the track

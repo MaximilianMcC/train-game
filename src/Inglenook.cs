@@ -3,53 +3,31 @@ using Raylib_cs;
 
 class Inglenook
 {
-	private static List<CubicBezier> railway;
 	private static Train train;
+	private static Railway railway;
 
 	public static void Start()
 	{
 		// Make the railway
-		railway = new List<CubicBezier>()
-		{
-			// Straight bit
-			new CubicBezier(
-				new Vector2(50, 50),
-				new Vector2(350, 50)
-			),
-
-			// Curve bit
-			new CubicBezier(
-				new Vector2(350, 50),
-				new Vector2(600, 50),
-				new Vector2(700, 500),
-				new Vector2(700, 500)
-			)
-			// new CubicBezier(
-			// 	new Vector2(100, 500),
-			// 	new Vector2(300, 100),
-			// 	new Vector2(700, 100),
-			// 	new Vector2(500, 500)
-			// )
-		};
+		railway = new Railway(new Vector2(50f));
+		railway.AddHorizontalStraight(100f);
+		railway.AddHorizontalStraight(100f);
+		railway.AddVerticalStraight(100f);
+		railway.AddHorizontalStraight(100f);
 
 		// Make the train
-		train = new Train(railway);
+		// train = new Train(railway);
 	}
 
 	public static void Update()
 	{
-		train.Update();
+		// train.Update();
 	}
 
 	public static void Render()
 	{
-		// Loop over every bit of track
-		// in the railway and draw it
-		foreach (CubicBezier trackPart in railway)
-		{
-			trackPart.Draw(3f, Color.Blue);
-		}
+		railway.Draw();
 
-		train.Render();
+		// train.Render();
 	}
 }

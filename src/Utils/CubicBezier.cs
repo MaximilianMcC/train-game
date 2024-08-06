@@ -13,7 +13,7 @@ class CubicBezier
 	private Vector2 endControl;
 
 	// Make a cubic bezier thats an actual curve thing
-	public CubicBezier(Vector2 startPosition, Vector2 startControlPoint, Vector2 endPosition, Vector2 endControlPoint)
+    public CubicBezier(Vector2 startPosition, Vector2 startControlPoint, Vector2 endPosition, Vector2 endControlPoint)
 	{
 		// Get the start and end position of the curve
 		StartPosition = startPosition;
@@ -98,16 +98,30 @@ class CubicBezier
 		return GetBezierPoint(distance);
 	}
 
-	public void Draw(float thickness, Color color)
+	public void Draw(float thickness, Color color, bool debug = false)
 	{
-		Raylib.DrawCircleV(GetPositionFromDistance(ArcLength), 5f, Color.Red);
-
 		// If there is no curve then just draw a
 		// line to avoid doing heaps of extra work
 		if (curved == false)
 		{
 			Raylib.DrawLineEx(StartPosition, EndPosition, thickness, color);
 			return;
+		}
+
+		// TODO: Remove
+		if (debug)
+		{
+			// Draw the start/end points
+			Raylib.DrawCircleV(StartPosition, 5f, Color.Green);
+			Raylib.DrawCircleV(EndPosition, 5f, Color.Green);
+
+			// Draw lines between the positions and control points
+			Raylib.DrawLineEx(StartPosition, startControl, 3f, Color.Orange);
+			Raylib.DrawLineEx(EndPosition, endControl, 3f, Color.Orange);
+
+			// Draw the control points
+			Raylib.DrawCircleV(startControl, 5f, Color.Red);
+			Raylib.DrawCircleV(endControl, 5f, Color.Red);
 		}
 
 		// Loop through every sample so that we can
