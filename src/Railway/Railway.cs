@@ -62,6 +62,22 @@ class Railway
 
 	public void AddDownwardsTurn(float length, float height)
 	{
+		// Get the start position and
+		// calculate the end position
+		Vector2 startPosition = GetStartPosition();
+		Vector2 endPosition = startPosition + new Vector2(length, height);
 
+		// Make the section of track
+		CubicBezier newTrack = new CubicBezier(
+
+			startPosition,
+			startPosition + new Vector2(length / 1.5f, 0),
+
+			endPosition + new Vector2(0, -height / 1.5f),
+			endPosition
+		);
+
+		// Append it to the railway
+		Track.Add(newTrack);
 	}
 }
