@@ -3,6 +3,7 @@ using Raylib_cs;
 
 class Game
 {
+	public static bool Debug = false;
 
 	public static void Run()
 	{
@@ -27,6 +28,9 @@ class Game
 
 	private static void Update()
 	{
+		// Check for if they want to toggle debug mode
+		if (Raylib.IsKeyPressed(KeyboardKey.Grave)) Debug = !Debug;
+
 		Inglenook.Update();
 	}
 

@@ -13,7 +13,7 @@ class CubicBezier
 	private Vector2 endControl;
 
 	// Make a cubic bezier thats an actual curve thing
-    public CubicBezier(Vector2 startPosition, Vector2 startControlPoint, Vector2 endPosition, Vector2 endControlPoint)
+    public CubicBezier(Vector2 startPosition, Vector2 startControlPoint, Vector2 endControlPoint, Vector2 endPosition)
 	{
 		// Get the start and end position of the curve
 		StartPosition = startPosition;
