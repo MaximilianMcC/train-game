@@ -126,14 +126,16 @@ class CubicBezier
 
 		// Loop through every sample so that we can
 		// draw it with a curve
-		for (int i = 0; i <= Samples; i++)
+		for (int i = 0; i < Samples - 1; i++)
 		{
-			// Convert the index to be in a range of 0-1
-			float distance = (float)i / Samples;
-			Vector2 position = GetBezierPoint(distance);
+			// Get this position, and the next one
+			float distance1 = (float)(i + 0) / Samples;
+			float distance2 = (float)(i + 1) / Samples;
 
-			// Draw a circle at the current position
-			Raylib.DrawCircleV(position, (thickness / 2), color);
+			// Draw a line between them
+			Vector2 startPosition = GetBezierPoint(distance1);
+			Vector2 endPosition = GetBezierPoint(distance2);
+			Raylib.DrawLineEx(startPosition, endPosition, thickness, color);
 		}
 	}
 }
