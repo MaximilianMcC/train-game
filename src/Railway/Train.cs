@@ -5,38 +5,44 @@ class Train
 {
 	public Vector2 Position;
 
-	private List<CubicBezier> railway;
+	private Railway railway;
 	public float PositionOnCurrentTrack;
 	public int CurrentTrackIndex;
 
 	private float speed = 200f;
 
-	public Train(List<CubicBezier> railway)
+	public Train(Railway railway)
 	{
 		// Assign the track
 		this.railway = railway;
-
-		// Set the start position to be at the
-		// start of the first bit of track
-		PositionOnCurrentTrack = 0f;
-		Position = this.railway[0].GetPositionFromDistance(PositionOnCurrentTrack);
 	}
 
 	public void Update()
+	{
+		Footplate();
+		Move();
+	}
+
+	// Controlling the train
+	private void Footplate()
 	{
 		// Check for if we wanna move the train
 		// TODO: Rewrite to act like a train and not player
 		if (Raylib.IsKeyDown(KeyboardKey.Left)) PositionOnCurrentTrack -= speed * Raylib.GetFrameTime();
 		if (Raylib.IsKeyDown(KeyboardKey.Right)) PositionOnCurrentTrack += speed * Raylib.GetFrameTime();
+	}
 
+	// Actually moving the train
+	private void Move()
+	{
 		// Check for if the train is due to be on the
 		// next bit of track and switch them to be there
-		CubicBezier track = railway[CurrentTrackIndex];
+		CubicBezier track = railway.Track[CurrentTrackIndex];
 		if (PositionOnCurrentTrack > track.ArcLength)
 		{
 			// The current position is taken away so that we don't
 			// loose any progress at higher speeds
-			if (CurrentTrackIndex < railway.Count - 1)
+			if (CurrentTrackIndex < railway.Track.Count - 1)
 			{
 				PositionOnCurrentTrack = track.ArcLength - PositionOnCurrentTrack;
 				CurrentTrackIndex++;
@@ -54,10 +60,10 @@ class Train
 		}
 
 		// Update the position based on the track
-		Position = railway[CurrentTrackIndex].GetPositionFromDistance(PositionOnCurrentTrack);
+		Position = railway.Track[CurrentTrackIndex].GetPositionFromDistance(PositionOnCurrentTrack);
 	}
 
-	public void Render()
+	public void Draw()
 	{
 		// Circle for now
 		Raylib.DrawCircleV(Position, 10f, Color.Magenta);
