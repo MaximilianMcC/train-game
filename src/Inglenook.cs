@@ -3,7 +3,7 @@ using Raylib_cs;
 
 class Inglenook
 {
-	private static Train train;
+	private static Locomotive locomotive;
 	private static Railway railway;
 
 	public static void Start()
@@ -14,18 +14,18 @@ class Inglenook
 		railway.AddDownwardsTurn(100f, 100f);
 		railway.AddVerticalStraight(100f);
 
-		// Make the train
-		train = new Train(railway);
+		// Make the loco
+		locomotive = new Locomotive(railway);
 	}
 
 	public static void Update()
 	{
-		train.Update();
+		locomotive.Update();
 	}
 
 	public static void Render()
 	{
 		railway.Draw(Game.Debug);
-		train.Draw();
+		locomotive.Draw();
 	}
 }

@@ -6,7 +6,7 @@ class CubicBezier
 	public static int Samples = 1000;
 	public Vector2 StartPosition { get; private set; }
 	public Vector2 EndPosition { get; private set; }
-	public float ArcLength { get; private set; }
+	public float Length { get; private set; }
 
 	private bool curved;
 	private Vector2 startControl;
@@ -26,7 +26,7 @@ class CubicBezier
 		endControl = endControlPoint;
 
 		// Calculate the total length/arc length of the curve
-		ArcLength = GetArcLength();
+		Length = GetArcLength();
 	}
 
 	// Make a cubic bezier thats just a straight line
@@ -43,7 +43,7 @@ class CubicBezier
 		endControl = endPosition;
 
 		// Calculate the total length/arc length
-		ArcLength = GetArcLength();
+		Length = GetArcLength();
 	}
 
 	private Vector2 GetBezierPoint(float range)
