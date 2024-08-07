@@ -49,7 +49,7 @@ class Locomotive
 
 		// Figure out what the current speed should be based
 		// on how much steam the regulator is letting through
-		float speed = (250 * regulator) * Raylib.GetFrameTime();
+		float speed = (400 * regulator) * Raylib.GetFrameTime();
 		
 		// Check for if we're in reversing gear or not. To switch
 		// gears the train must be stopped
@@ -119,7 +119,7 @@ class Locomotive
 
 		// Draw the footplate
 		RenderFootplate();
-		Raylib.DrawTextureEx(footplate.Texture, new Vector2(10 + 250, Raylib.GetScreenHeight() - 260), 180f, 0.8f, Color.White);
+		Utils.DrawRenderTexture(footplate, new Vector2(10, Raylib.GetScreenHeight() - 250 - 10));
 
 		// Say if we're reversing or not and the regulator value
 		// TODO: Show visually with levers and whatnot
@@ -139,10 +139,10 @@ class Locomotive
 		Raylib.ClearBackground(Color.Black);
 
 		// Draw the regulator
-		float angle = Utils.ConvertRange(regulator, 120, 60);
-		Utils.DrawAngledLine(new Vector2(125, 200), 100f, 120, 5f, new Color(16, 16, 16, 255));
-		Utils.DrawAngledLine(new Vector2(125, 200), 100f, 60, 5f, new Color(16, 16, 16, 255));
-		Utils.DrawAngledLine(new Vector2(125, 200), 150f, angle, 10f, Color.Gray);
+		float angle = Utils.ConvertRange(regulator, 360, 300);
+		Raylib.DrawText($"{angle}", 10, 10, 30, Color.White);
+
+		Utils.DrawAngledLine(new Vector2(125), 120f, angle, 10f, Color.Gray);
 
 		// End drawing
 		Raylib.EndTextureMode();

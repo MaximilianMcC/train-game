@@ -80,4 +80,27 @@ class Railway
 		// Append it to the railway
 		Track.Add(newTrack);
 	}
+
+	public void AddHorizontalDownwardsPoint(float length)
+	{
+		// Get the initial start position because
+		// it will change when we make the main track
+		Vector2 startPosition = GetStartPosition();
+
+		// Make the main section of the point
+		AddHorizontalStraight(length);
+
+		// Make the branching section of the point
+		CubicBezier newTrack = new CubicBezier(
+
+			startPosition,
+			startPosition + new Vector2(length / 4f, 0f),
+
+			startPosition + new Vector2(length / 2f, length / 4),
+			startPosition + new Vector2(length, length / 4)
+		);
+
+		// Append it to the railway
+		Track.Add(newTrack);
+	}
 }

@@ -24,4 +24,16 @@ class Utils
 		// Draw the line
 		Raylib.DrawLineEx(startPosition, endPosition, thickness, color);
 	}
+
+	// Draw a render texture (flip it and whatnot)
+	public static void DrawRenderTexture(RenderTexture2D renderTexture, Vector2 position)
+	{
+		Raylib.DrawTexturePro(
+			renderTexture.Texture,
+			new Rectangle(0, 0, renderTexture.Texture.Width, -renderTexture.Texture.Height),
+			new Rectangle(position, renderTexture.Texture.Width, renderTexture.Texture.Height),
+			Vector2.Zero, 0f,
+			Color.White
+		);
+	}
 }
