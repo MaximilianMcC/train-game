@@ -7,7 +7,7 @@ class Locomotive
 	public Vector2 Position;
 	public float trackPosition;
 
-	private Railway railway;
+	public Railway Railway;
 	private int trackIndex;
 	private CubicBezier track;
 
@@ -18,7 +18,7 @@ class Locomotive
 	public Locomotive(Railway railway, int trackIndex = 0)
 	{
 		// Assign the track
-		this.railway = railway;
+		Railway = railway;
 		this.trackIndex = trackIndex;
 		track = railway.Track[trackIndex];
 
@@ -70,7 +70,7 @@ class Locomotive
 		{
 			// Check for if there is another valid section
 			// of track that we can move to
-			if (railway.Track.Count <= trackIndex + 1)
+			if (Railway.Track.Count <= trackIndex + 1)
 			{
 				// No more track. Do nothing
 				trackPosition = track.Length;
@@ -103,12 +103,12 @@ class Locomotive
 			// moved onto a new piece of track
 			//! Might not work for higher speeds
 			// TODO: Don't get length like this
-			trackPosition = railway.Track[trackIndex].Length;
+			trackPosition = Railway.Track[trackIndex].Length;
 		}
 
 		// Get the new bit of track and
 		// update the position based on it
-		track = railway.Track[trackIndex];
+		track = Railway.Track[trackIndex];
 		Position = track.GetPositionFromDistance(trackPosition);
 	}
 
@@ -124,11 +124,6 @@ class Locomotive
 		// Say if we're reversing or not and the regulator value
 		// TODO: Show visually with levers and whatnot
 		Raylib.DrawText($"{regulator.ToString("0.0")}\n\n{reversing}", Raylib.GetScreenWidth() - 150, Raylib.GetScreenHeight() - 70, 40, Color.Black);
-
-		if (Game.Debug)
-		{
-			Raylib.DrawText($"Regulator: {regulator}", 10, 10, 50, Color.Brown);
-		}
 	}
 
 

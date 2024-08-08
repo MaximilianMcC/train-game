@@ -6,11 +6,18 @@ class Railway
 	public Vector2 Origin { get; private set; }
 	public List<CubicBezier> Track { get; private set; }
 	public bool ClosedLoop { get; private set; }
+	private Color debugColor;
 
 	public Railway(Vector2 startPosition)
 	{
+		// Set the origin and make a list to
+		// hold all of the track in the line
 		Origin = startPosition;
 		Track = new List<CubicBezier>();
+
+		// Set a random debug color for distinguishing
+		// different lines against each other
+		debugColor = Utils.GetRandomColor();
 
 		//? https://www.desmos.com/calculator/cahqdxeshd
 	}
@@ -21,7 +28,8 @@ class Railway
 		foreach (CubicBezier track in Track)
 		{
 			// Draw it
-			track.Draw(3f, Color.Blue, debug);
+			Color color = debug ? debugColor : Color.Blue;
+			track.Draw(3f, color, debug);
 		}
 	}
 
@@ -34,7 +42,7 @@ class Railway
 		return (Track.Count > 0) ? Track[^1].EndPosition : Origin;
 	}
 
-	public void AddHorizontalStraight(float length)
+	public Railway AddHorizontalStraight(float length)
 	{
 		// Get the start position
 		Vector2 startPosition = GetStartPosition();
@@ -45,9 +53,10 @@ class Railway
 
 		// Append it to the railway
 		Track.Add(newTrack);
+		return this;
 	}
 
-	public void AddVerticalStraight(float length)
+	public Railway AddVerticalStraight(float length)
 	{
 		// Get the start position
 		Vector2 startPosition = GetStartPosition();
@@ -58,9 +67,10 @@ class Railway
 
 		// Append it to the railway
 		Track.Add(newTrack);
+		return this;
 	}
 
-	public void AddDownwardsTurn(float length, float height)
+	public Railway AddDownwardsTurn(float length, float height)
 	{
 		// Get the start position and
 		// calculate the end position
@@ -79,16 +89,14 @@ class Railway
 
 		// Append it to the railway
 		Track.Add(newTrack);
+		return this;
 	}
 
-	public void AddHorizontalDownwardsPoint(float length)
+	public Railway AddHorizontalDownwardsPoint(float length)
 	{
 		// Get the initial start position because
 		// it will change when we make the main track
 		Vector2 startPosition = GetStartPosition();
-
-		// Make the main section of the point
-		AddHorizontalStraight(length);
 
 		// Make the branching section of the point
 		CubicBezier newTrack = new CubicBezier(
@@ -102,5 +110,6 @@ class Railway
 
 		// Append it to the railway
 		Track.Add(newTrack);
+		return this;
 	}
 }
