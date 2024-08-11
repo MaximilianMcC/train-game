@@ -2,38 +2,24 @@ using System.Diagnostics;
 using System.Numerics;
 using Raylib_cs;
 
-class Locomotive
+class Locomotive : ThingOnTrack
 {
-	public Vector2 Position;
-	public float trackPosition;
-
-	public Railway Railway;
-	private int trackIndex;
-	private CubicBezier track;
-
 	private RenderTexture2D footplate;
 	private float regulator = 0;
 	private bool reversing;
 
-	public Locomotive(Railway railway, int trackIndex = 0)
+	public Locomotive(Railway railway, int trackIndex = 0) : base(railway, trackIndex)
 	{
-		// Assign the track
-		Railway = railway;
-		this.trackIndex = trackIndex;
-		track = railway.Track[trackIndex];
-
-		// Make the spawn position in the middle
-		// of the first part of track
-		trackPosition = track.Length / 2;
-
 		// Make the render texture to draw the footplate on
 		footplate = Raylib.LoadRenderTexture(250, 250);
 	}
 
-	public void Update()
+	public override void Update()
 	{
+		// Do all the track related stuff idk
+		base.Update();
+
 		Footplate();
-		Move();
 	}
 
 	// Controlling the train
@@ -61,58 +47,7 @@ class Locomotive
 		trackPosition += reversing ? -speed : speed;
 	}
 
-	// Actually moving the train
-	private void Move()
-	{
-		// Check for if we're about to move
-		// onto the next section of track
-		if (trackPosition > track.Length)
-		{
-			// Check for if there is another valid section
-			// of track that we can move to
-			if (Railway.Track.Count <= trackIndex + 1)
-			{
-				// No more track. Do nothing
-				trackPosition = track.Length;
-				return;
-			}
-		
-			// Move onto the next section of track
-			trackIndex++;
-
-			// Reset the position since we've 
-			// moved onto a new piece of track
-			//! Might not work for higher speeds
-			trackPosition = 0f;
-		}
-		else if (trackPosition < 0f)
-		{
-			// Check for if there is another valid section
-			// of track that we can move to
-			if (trackIndex <= 0f)
-			{
-				// No more track. Do nothing
-				trackPosition = 0f;
-				return;
-			}
-		
-			// Move back to the previous section of track
-			trackIndex--;
-
-			// Reset the position since we've 
-			// moved onto a new piece of track
-			//! Might not work for higher speeds
-			// TODO: Don't get length like this
-			trackPosition = Railway.Track[trackIndex].Length;
-		}
-
-		// Get the new bit of track and
-		// update the position based on it
-		track = Railway.Track[trackIndex];
-		Position = track.GetPositionFromDistance(trackPosition);
-	}
-
-	public void Draw()
+	public override void Draw()
 	{
 		// Draw the actual locomotive (circle for now)
 		Raylib.DrawCircleV(Position, 10f, Color.Magenta);
@@ -125,7 +60,6 @@ class Locomotive
 		// TODO: Show visually with levers and whatnot
 		Raylib.DrawText($"{regulator.ToString("0.0")}\n\n{reversing}", Raylib.GetScreenWidth() - 150, Raylib.GetScreenHeight() - 70, 40, Color.Black);
 	}
-
 
 	private void RenderFootplate()
 	{
@@ -143,7 +77,7 @@ class Locomotive
 		Raylib.EndTextureMode();
 	}
 
-	private void CleanUp()
+	protected override void CleanUp()
 	{
 		// Get rid of the footplate
 		Raylib.UnloadRenderTexture(footplate);

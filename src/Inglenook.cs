@@ -50,6 +50,7 @@ class Inglenook
 	public static void Render()
 	{
 		branchLines.ForEach(line => line.Draw(Game.Debug));
+		branchLines[branchIndex].Draw(Game.Debug);
 		locomotive.Draw();
 
 		Raylib.DrawText($"{branchIndex}", 100, 100, 30, Color.Black);
