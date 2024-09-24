@@ -4,12 +4,13 @@ using Raylib_cs;
 class Game
 {
 	public static bool Debug = false;
+	public static Track AnchorTrack;
 
 	public static void Run()
 	{
 		Raylib.SetTraceLogLevel(TraceLogLevel.Warning);
 		Raylib.SetConfigFlags(ConfigFlags.AlwaysRunWindow);
-		Raylib.InitWindow(800, 600, "the bro inglenook");
+		Raylib.InitWindow(800, 600, "illegaler");
 		Raylib.SetTargetFPS(144);
 
 		Start();
@@ -23,23 +24,24 @@ class Game
 
 	private static void Start()
 	{
-		Inglenook.Start();
+		AnchorTrack = new Track(SetTrack.Straight, new Vector2(100));
+		Track straight1 = new Track(SetTrack.Straight, AnchorTrack);
+		Track straight2 = new Track(SetTrack.Straight, straight1);
+		new Track(SetTrack.Straight, straight2);
 	}
 
 	private static void Update()
 	{
 		// Check for if they want to toggle debug mode
 		if (Raylib.IsKeyPressed(KeyboardKey.Grave)) Debug = !Debug;
-
-		Inglenook.Update();
 	}
 
 	private static void Render()
 	{
 		Raylib.BeginDrawing();
-		Raylib.ClearBackground(new Color(217, 224, 240, 255));
+		Raylib.ClearBackground(Color.Magenta);
 
-		Inglenook.Render();
+		TrackHandler.Tracks.ForEach(track => track.Render());
 
 		Raylib.EndDrawing();
 	}
