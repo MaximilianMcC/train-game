@@ -11,8 +11,11 @@ class TrackHandler
 class Track
 {
 	public Vector2 Position;
+	public float Rotation;
+
 	public SetTrack Type;
 	public Track ConnectingTrack;
+
 	private Color debugColor;
 
 	// TODO: Make it so you can supply a number to repeat and it will repeat this track bit x times. Will be useful for straights or something
@@ -22,9 +25,10 @@ class Track
 		Type = type;
 		ConnectingTrack = connectingTrack;
 
-		// Calculate our position based off
-		// our parents position
+		// Calculate our position and rotation based
+		// off our parents position and their rotation
 		Position = connectingTrack.Position + connectingTrack.Type.EndPosition;
+		Rotation = connectingTrack.Rotation + connectingTrack.Type.EndRotation;
 
 		// Make a debug color thing
 		Random random = new Random();
@@ -37,7 +41,7 @@ class Track
 
 	// Anchor thingy
 	// TODO: Don't rewrite all this
-	public Track(SetTrack type, Vector2 startingPosition)
+	public Track(SetTrack type, Vector2 startingPosition, float startingRotation = 0f)
 	{
 		// Assign the type of track and its child
 		Type = type;
@@ -46,6 +50,7 @@ class Track
 		// Calculate our position based off
 		// our parents position
 		Position = startingPosition;
+		Rotation = startingRotation;
 
 		// Make a debug color thing
 		Random random = new Random();
@@ -60,6 +65,6 @@ class Track
 	{
 		// Render the type of track at
 		// the position of the track rn
-		Type.Render(Position, debugColor);
+		Type.Render(Position, Rotation, debugColor);
 	}
 }

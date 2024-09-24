@@ -27,7 +27,8 @@ class Game
 		AnchorTrack = new Track(SetTrack.Straight, new Vector2(100));
 		Track straight1 = new Track(SetTrack.Straight, AnchorTrack);
 		Track straight2 = new Track(SetTrack.Straight, straight1);
-		new Track(SetTrack.Straight, straight2);
+		Track curve1 = new Track(SetTrack.Curve, straight2);
+		Track straight3 = new Track(SetTrack.Straight, curve1);
 	}
 
 	private static void Update()
