@@ -10,5 +10,5 @@ abstract class Updatable
 	public virtual void Render2D() {}
 	public virtual void RenderDebug2D() {}
 
-	public virtual void CleanUp() {}
+	public virtual void Unload() {}
 }

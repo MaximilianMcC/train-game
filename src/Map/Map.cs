@@ -13,24 +13,28 @@ class Map
 		// Add all the models, and give them a name
 		Stuff = new Dictionary<string, Prop>()
 		{
-			{ "fireplace", new Prop("./assets/fireplace.glb", new Vector3(3, 0, 3)) }
+			// Actual signal box
+			{ "floor", new Prop("./assets/floor.glb", new Vector3(0, -0.1f, 0)) },
+
+			// Furniture and stuff
+			{ "fireplace", new Prop("./assets/fireplace.glb", new Vector3(2.3f, 0, 0.9f), 260) }
 		};
 	}
 
 	public static void Update()
 	{
-		Stuff["fireplace"].Update();
+		foreach (Prop prop in Stuff.Values) prop.Update();
 	}
 
 	public static void Render()
 	{
-		Stuff["fireplace"].Render3D();
+		foreach (Prop prop in Stuff.Values) prop.Render3D();
 	}
 
 	public static void Unload()
 	{
 		// Unload everything
-		foreach (Prop model in Stuff.Values) model.CleanUp();
+		foreach (Prop prop in Stuff.Values) prop.Unload();
 	}
 
 	public static unsafe bool Collision(BoundingBox collider)

@@ -11,13 +11,18 @@ class Prop : Updatable
 	public Vector3 Position;
 	public Quaternion Rotation;
 
-	public Prop(string modelPath, Vector3 position)
+	public Prop(string modelPath, Vector3 position, float yRotation = 0f)
 	{
 		// Load in the model
 		Model = AssetManager.LoadGlbModel(modelPath);
 
-		// Set the position and whatnot
+		// If we supplied a y rotation then add that because
+		// its nice and quick to do it from the constructor
+		Rotation = Quaternion.CreateFromAxisAngle(Vector3.UnitY, yRotation);
+
+		// Set the position and transform whatnot
 		Position = position;
+		Model.Transform = Matrix4x4.CreateFromQuaternion(Rotation);
 		UpdateBoundingBoxes();
 	}
 
@@ -51,15 +56,15 @@ class Prop : Updatable
 	{
 		// Draw the model
 		Raylib.DrawModel(Model, Position, 1f, Color.White);
-		Raylib.DrawBoundingBox(BoundingBox, Color.Magenta);
+		// Raylib.DrawBoundingBox(BoundingBox, Color.Magenta);
 
 		foreach (BoundingBox boundingBox in MeshBoundingBoxes)
 		{
-			Raylib.DrawBoundingBox(boundingBox, Color.Green);
+			// Raylib.DrawBoundingBox(boundingBox, Color.Blue);
 		}
 	}
 
-	public override void CleanUp()
+	public override void Unload()
 	{
 		Raylib.UnloadModel(Model);
 	}

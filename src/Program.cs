@@ -39,7 +39,6 @@ class Program
 
 	private static void Render3D()
 	{
-		Raylib.DrawGrid(10, 1);
 		Map.Render();
 	}
 

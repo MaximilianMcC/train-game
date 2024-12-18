@@ -85,7 +85,7 @@ class Player
 
 		// TODO: Make the size an actual thing
 		// Make a bounding box based on the new position
-		Vector3 size = new Vector3(0.5f, height, 0.5f);
+		Vector3 size = new Vector3(0f, height, 0f);
 		BoundingBox hitbox = new BoundingBox(potentialNewPosition, potentialNewPosition + size);
 
 		// Check for collision. If there wasn't any then
