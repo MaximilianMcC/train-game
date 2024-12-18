@@ -15,7 +15,7 @@ class Program
 			Update();
 
 			Raylib.BeginDrawing();
-				Raylib.ClearBackground(Color.Magenta);
+				Raylib.ClearBackground(Color.Brown);
 				Raylib.BeginMode3D(Player.Camera);
 					Render3D();
 				Raylib.EndMode3D();
@@ -33,6 +33,7 @@ class Program
 
 	private static void Update()
 	{
+		Map.Update();
 		Player.Update();
 	}
 
