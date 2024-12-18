@@ -6,10 +6,17 @@
     <RootNamespace>train_game</RootNamespace>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>disable</Nullable>
+
+	<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="Raylib-cs" Version="6.1.1" />
   </ItemGroup>
+
+  	<!-- Include models in the thingy -->
+	<ItemGroup>
+		<EmbeddedResource Include="./assets/**/*"></EmbeddedResource>
+	</ItemGroup>
 
 </Project>

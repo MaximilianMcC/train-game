@@ -79,8 +79,19 @@ class Player
 		// Combine the directions to get the final movement direction
 		Vector3 direction = (forwards * inputDirection.Z) + (right * inputDirection.X);
 
-		// Move the player
+		// Get the new players position
 		float movement = movementSpeed;
-		Position += (direction * movement) * Raylib.GetFrameTime();
+		Vector3 potentialNewPosition = Position + (direction * movement) * Raylib.GetFrameTime();
+
+		// TODO: Make the size an actual thing
+		// Make a bounding box based on the new position
+		Vector3 size = new Vector3(0.5f, height, 0.5f);
+		BoundingBox hitbox = new BoundingBox(potentialNewPosition, potentialNewPosition + size);
+
+		// Check for collision. If there wasn't any then
+		// set the players position to be this new one
+		bool collision = Map.Collision(hitbox);
+		Console.WriteLine(collision);
+		Position = potentialNewPosition;
 	}
 }

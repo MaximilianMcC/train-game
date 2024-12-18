@@ -28,6 +28,7 @@ class Program
 	private static void Start()
 	{
 		Player.Start();
+		Map.Load();
 	}
 
 	private static void Update()
@@ -38,16 +39,17 @@ class Program
 	private static void Render3D()
 	{
 		Raylib.DrawGrid(10, 1);
+		Map.Render();
 	}
 
 	private static void Render2D()
 	{
-		Raylib.DrawText($"FPS: {Raylib.GetFPS()}", 10, 10, 30, Color.White);
+		Raylib.DrawText($"FPS: {Raylib.GetFPS()}", 10, 10, 50, Color.White);
 	}
 
 	private static void CleanUp()
 	{
-		// Unload everything and whatnot
+		Map.Unload();
 		Raylib.CloseWindow();
 	}
 }
