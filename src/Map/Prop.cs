@@ -19,7 +19,7 @@ class Prop : Updatable
 
 		// Set all the settings and whatnot
 		Matrix4x4 scaleMatrix = Matrix4x4.CreateScale(1f);
-		Matrix4x4 rotationMatrix = Matrix4x4.CreateRotationY(yRotation);
+		Matrix4x4 rotationMatrix = Matrix4x4.CreateRotationY(yRotation * Raylib.DEG2RAD);
 		Matrix4x4 positionMatrix = Matrix4x4.CreateTranslation(position);
 
 		// Apply the transform to the model
