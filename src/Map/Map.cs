@@ -14,10 +14,11 @@ class Map
 		Stuff = new Dictionary<string, Prop>()
 		{
 			// Actual signal box
-			{ "room", new Prop("./assets/operator-room.glb", new Vector3(0, -0.01f, 0)) },
+			{ "room", new Prop("./assets/room.glb", new Vector3(0, -0.01f, 0)) },
 
 			// Furniture and stuff
-			{ "fireplace", new Prop("./assets/fireplace.glb", new Vector3(-3f, 0, 1.5f), -230) }
+			{ "fireplace", new Prop("./assets/fireplace.glb", new Vector3(-3f, 0, 1.5f), -230) },
+			{ "painting", new Prop("./assets/painting.glb", new Vector3(-2, 1.8f, 2), 180)}
 		};
 	}
 
