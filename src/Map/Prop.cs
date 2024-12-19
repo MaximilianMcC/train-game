@@ -13,55 +13,33 @@ class Prop : Updatable
 
 	public Prop(string modelPath, Vector3 position, float yRotation = 0f)
 	{
-		// Load in the model
+		// Load the model
 		Model = AssetManager.LoadGlbModel(modelPath);
+		Model.Transform = Matrix4x4.Identity;
 
-		// If we supplied a y rotation then add that because
-		// its nice and quick to do it from the constructor
-		Rotation = Quaternion.CreateFromAxisAngle(Vector3.UnitY, yRotation);
+		// Set all the settings and whatnot
+		Matrix4x4 scaleMatrix = Matrix4x4.CreateScale(1f);
+		Matrix4x4 rotationMatrix = Matrix4x4.CreateRotationY(yRotation);
+		Matrix4x4 positionMatrix = Matrix4x4.CreateTranslation(position);
 
-		// Set the position and transform whatnot
-		Position = position;
-		Model.Transform = Matrix4x4.CreateFromQuaternion(Rotation);
-		UpdateBoundingBoxes();
-	}
-
-	//? This is in a method because unless the thing is moving,
-	//? then the bounding box will kinda never move I think yk
-	private unsafe void UpdateBoundingBoxes()
-	{
-		// First modify the whole "generalised" bounding box
-		BoundingBox modelBoundingBox = Raylib.GetModelBoundingBox(Model);
-		BoundingBox = new BoundingBox(Position + modelBoundingBox.Min, Position + modelBoundingBox.Max);
-
-		// Get the mesh data (unsafe)
-		Mesh* meshes = Model.Meshes;
-		int meshCount = Model.MeshCount;
-
-		// Recalculate every mesh bounding box, and also
-		// chuck it all in a list so we don't have to deal
-		// with all this dodgy as unsafe array pointer stuff 
-		// TODO: Clear the list instead of making a new one
-		MeshBoundingBoxes = new List<BoundingBox>();
-		for (int i = 0; i < meshCount; i++)
-		{
-			// Get the bounding box, and add the new position
-			BoundingBox meshBoundingBox = Raylib.GetMeshBoundingBox(meshes[i]);
-			BoundingBox adjustedBoundingBox = new BoundingBox(Position + meshBoundingBox.Min, Position + meshBoundingBox.Max);
-			MeshBoundingBoxes.Add(adjustedBoundingBox);
-		}
+		// Apply the transform to the model
+		//? System.Numerics and Raylib have the rows and columns of their matrixes
+		//? swapped, so calling transpose on it flips it around so that it all works
+		Matrix4x4 matrix = scaleMatrix * rotationMatrix * positionMatrix;
+		Matrix4x4 raylibTranslationMatrix = Matrix4x4.Transpose(matrix);
+		Model.Transform = raylibTranslationMatrix;
 	}
 
 	public override void Render3D()
 	{
 		// Draw the model
-		Raylib.DrawModel(Model, Position, 1f, Color.White);
-		// Raylib.DrawBoundingBox(BoundingBox, Color.Magenta);
+		Raylib.DrawModel(Model, Vector3.Zero, 1f, Color.White);
+		Raylib.DrawBoundingBox(BoundingBox, Color.Magenta);
 
-		foreach (BoundingBox boundingBox in MeshBoundingBoxes)
-		{
-			// Raylib.DrawBoundingBox(boundingBox, Color.Blue);
-		}
+		// foreach (BoundingBox boundingBox in MeshBoundingBoxes)
+		// {
+		// 	Raylib.DrawBoundingBox(boundingBox, Color.Green);
+		// }
 	}
 
 	public override void Unload()

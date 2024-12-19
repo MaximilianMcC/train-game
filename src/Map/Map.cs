@@ -14,10 +14,10 @@ class Map
 		Stuff = new Dictionary<string, Prop>()
 		{
 			// Actual signal box
-			{ "floor", new Prop("./assets/floor.glb", new Vector3(0, -0.1f, 0)) },
+			{ "room", new Prop("./assets/operator-room.glb", new Vector3(0, -0.01f, 0)) },
 
 			// Furniture and stuff
-			{ "fireplace", new Prop("./assets/fireplace.glb", new Vector3(2.3f, 0, 0.9f), 260) }
+			{ "fireplace", new Prop("./assets/fireplace.glb", new Vector3(-3f, 0, 1.5f), -230) }
 		};
 	}
 
@@ -43,7 +43,7 @@ class Map
 		foreach (Prop prop in Stuff.Values)
 		{
 			// First check for if there was any collision at all
-			if (Raylib.CheckCollisionBoxes(collider, prop.BoundingBox) == false) continue;
+			// if (Raylib.CheckCollisionBoxes(collider, prop.BoundingBox) == false) continue;
 
 			// If there was collision, then check each mesh
 			foreach (BoundingBox boundingBox in prop.MeshBoundingBoxes)

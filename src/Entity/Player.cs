@@ -90,7 +90,8 @@ class Player
 
 		// Check for collision. If there wasn't any then
 		// set the players position to be this new one
-		bool collision = Map.Collision(hitbox);
-		if (collision == false) Position = potentialNewPosition;
+		// bool collision = Map.Collision(hitbox);
+		// if (collision == false) Position = potentialNewPosition;
+		Position = potentialNewPosition;
 	}
 }
