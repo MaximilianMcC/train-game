@@ -39,6 +39,14 @@ class Player
 		UpdatePosition();
 	}
 
+	public static void Render2D()
+	{
+		// Draw the crosshair
+		// TODO: Use a shader to invent the colors behind it or something
+		Vector2 centre = new Vector2(Raylib.GetScreenWidth(), Raylib.GetScreenHeight()) / 2;
+		Raylib.DrawCircleV(centre, centre.X / 250, Color.White);
+	}
+
 	private static void UpdateCamera()
 	{
 		// Get the direction that we're looking

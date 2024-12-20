@@ -44,6 +44,7 @@ class Program
 
 	private static void Render2D()
 	{
+		Player.Render2D();
 		Raylib.DrawText($"FPS: {Raylib.GetFPS()}", 10, 10, 50, Color.White);
 	}
 
