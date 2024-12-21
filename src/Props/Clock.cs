@@ -11,20 +11,27 @@ class Clock : Prop
 	private float minutesHandAngle;
 	private float secondsHandAngle;
 
-	private float yRotation;
+	// TODO: Don't do this
 	private Vector3 position;
+	private float yRotation;
 
-	public Clock(Vector3 position, float yRotation = 0f) : base("./assets/clock-face.glb", position, yRotation)
+	public Clock(Vector3 position, float yRotation = 0f)
 	{
-		// Load the hour, minute, and seconds hand
-		HourHand = AssetManager.LoadGlbModel("./assets/clock-hour.glb");
-		MinuteHand = AssetManager.LoadGlbModel("./assets/clock-minute.glb");
-		SecondHand = AssetManager.LoadGlbModel("./assets/clock-second.glb");
+		// Load the clock, as well as all the hands
+		Models.Add("face", AssetManager.LoadGlbModel("./assets/clock-face.glb"));
+		Models.Add("hourHand", AssetManager.LoadGlbModel("./assets/clock-hour.glb"));
+		Models.Add("minuteHand", AssetManager.LoadGlbModel("./assets/clock-minute.glb"));
+		Models.Add("secondHand", AssetManager.LoadGlbModel("./assets/clock-second.glb"));
+
+		// Set the initial positions and rotations for everything
+		foreach (string modelName in Models.Keys)
+		{
+			SetModelTransform(modelName, position, Vector3.UnitY * yRotation);
+		}
 
 		// TODO: Don't do this
-		// Position = position;
-		this.yRotation = yRotation;
 		this.position = position;
+		this.yRotation = yRotation;
 	}
 
 	public override void Update()
@@ -43,30 +50,8 @@ class Clock : Prop
 		secondsHandAngle = ((float)time.TotalSeconds) * time60;
 
 		// Update all the angles
-		SetModelTransform(ref HourHand, position, new Vector3(0, yRotation, hoursHandAngle));
-		SetModelTransform(ref MinuteHand, position, new Vector3(0, yRotation, minutesHandAngle));
-		SetModelTransform(ref SecondHand, position, new Vector3(0, yRotation, secondsHandAngle));
-	}
-
-	public override void Render3D()
-	{
-		// Draw the clock
-		base.Render3D();
-
-		// Draw the hands
-		Raylib.DrawModel(HourHand, Vector3.Zero, 1f, Color.White);
-		Raylib.DrawModel(MinuteHand, Vector3.Zero, 1f, Color.White);
-		Raylib.DrawModel(SecondHand, Vector3.Zero, 1f, Color.White);
-	}
-
-	public override void Unload()
-	{
-		// Unload all the hands
-		Raylib.UnloadModel(HourHand);
-		Raylib.UnloadModel(MinuteHand);
-		Raylib.UnloadModel(SecondHand);
-
-		// Unload the rest of the stuff
-		base.Unload();
+		SetModelTransform("hourHand", position, new Vector3(0, yRotation, hoursHandAngle));
+		SetModelTransform("minuteHand", position, new Vector3(0, yRotation, minutesHandAngle));
+		SetModelTransform("secondHand", position, new Vector3(0, yRotation, secondsHandAngle));
 	}
 }
