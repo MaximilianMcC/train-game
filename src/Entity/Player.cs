@@ -5,6 +5,7 @@ class Player
 {
 	// General stuff
 	public static Vector3 Position;
+	// public static Vector3 Position = new Vector3(10, 0, 10);
 	public static Quaternion Rotation;
 
 	// 3D stuff
@@ -98,8 +99,9 @@ class Player
 
 		// Check for collision. If there wasn't any then
 		// set the players position to be this new one
-		// bool collision = Map.Collision(hitbox);
-		// if (collision == false) Position = potentialNewPosition;
-		Position = potentialNewPosition;
+		bool collision = Map.Collision(hitbox);
+		if (collision == false) Position = potentialNewPosition;
+		// Console.WriteLine(collision); 
+		// Position = potentialNewPosition;
 	}
 }

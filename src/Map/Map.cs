@@ -37,25 +37,32 @@ class Map
 		foreach (Prop prop in Stuff.Values) prop.Render3D();
 	}
 
+	public static void RenderDebug()
+	{
+		foreach (Prop prop in Stuff.Values)
+		{
+			foreach (BoundingBox hitbox in prop.Hitboxes)
+			{
+				Raylib.DrawBoundingBox(hitbox, Color.Green);
+			}
+		}
+	}
+
 	public static void Unload()
 	{
 		// Unload everything
 		foreach (Prop prop in Stuff.Values) prop.Unload();
 	}
 
-	public static unsafe bool Collision(BoundingBox collider)
+	public static bool Collision(BoundingBox collider)
 	{
-		// Loop over every object
+		// Loop over every mesh of every object
 		foreach (Prop prop in Stuff.Values)
 		{
-			// First check for if there was any collision at all
-			// if (Raylib.CheckCollisionBoxes(collider, prop.BoundingBox) == false) continue;
-
-			// If there was collision, then check each mesh
-			// foreach (BoundingBox boundingBox in prop.MeshBoundingBoxes)
-			// {
-			// 	if (Raylib.CheckCollisionBoxes(collider, boundingBox)) return true;
-			// }
+			foreach (BoundingBox hitbox in prop.Hitboxes)
+			{
+				if (Raylib.CheckCollisionBoxes(collider, hitbox)) return true;
+			}
 		}
 
 		// There was no collision

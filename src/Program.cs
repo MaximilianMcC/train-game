@@ -4,6 +4,7 @@ using Raylib_cs;
 class Program
 {
 	private static RenderTexture2D cameraOutput;
+	private static bool debug = true;
 
 	public static void Main(string[] args)
 	{
@@ -61,17 +62,22 @@ class Program
 	{
 		Map.Update();
 		Player.Update();
+
+		if (Raylib.IsKeyPressed(InputManager.ToggleDebug)) debug = !debug;
 	}
 
 	private static void Render3D()
 	{
 		Map.Render();
+
+		if (debug) Map.RenderDebug();
 	}
 
 	private static void Render2D()
 	{
 		Player.Render2D();
-		Raylib.DrawText($"FPS: {Raylib.GetFPS()}", 10, 10, 50, Color.White);
+
+		if (debug) Raylib.DrawText($"FPS: {Raylib.GetFPS()}", 10, 10, 45, Color.White);
 	}
 
 	private static void CleanUp()

@@ -5,6 +5,7 @@ using Raylib_cs;
 class Prop : Updatable
 {
 	public Dictionary<string, Model> Models = [];
+	public List<BoundingBox> Hitboxes = [];
 
 	//? Empty constructor for custom stuff idk
 	public Prop() {}
@@ -63,6 +64,10 @@ class Prop : Updatable
 		Model model = Models[modelName];
 		model.Transform += transformationMatrix;
 		Models[modelName] = model;
+
+		// Since we've updated the model, also update
+		// the hitboxes for the model/meshes
+		UpdateBoundingBoxes(model.Transform);
 	}
 
 	//? Legit a one character difference (needed)
@@ -77,5 +82,50 @@ class Prop : Updatable
 		Model model = Models[modelName];
 		model.Transform = transformationMatrix;
 		Models[modelName] = model;
+
+		// Since we've updated the model, also update
+		// the hitboxes for the model/meshes
+		UpdateBoundingBoxes(model.Transform);
+	}
+
+	// TODO: Make safe somehow idk
+	private unsafe void UpdateBoundingBoxes(Matrix4x4 transformation)
+	{
+		// Clear the hitboxes since we're
+		// gonna be regenerating them all
+		Hitboxes.Clear();
+
+		// Loop over all models
+		foreach (Model model in Models.Values)
+		{
+			// Get all of the meshes for the current model (unsafe)
+			Mesh* meshes = model.Meshes;
+			int meshCount = model.MeshCount;
+
+			// Loop over every mesh and add its bounding box
+			// to the new list of hitboxes
+			for (int i = 0; i < meshCount; i++)
+			{
+				// Get the bounding box that is centred at the world/models origin
+				BoundingBox originalBoundingBox = Raylib.GetMeshBoundingBox(meshes[i]);
+
+				// Extract the translation only from the transformation
+				Vector3 translation = new Vector3(transformation.M14, transformation.M24, transformation.M34);
+
+				// Update the position of the bounding box according to a transformation matrix
+				//? this is ONLY the position. Raylib doesn't support the other stuff
+				// TODO: Manually implement scale
+				// TODO: Submit an issue to add rotation support, or use a library for it
+				Vector3 transformedMin = originalBoundingBox.Min + translation;
+				Vector3 transformedMax = originalBoundingBox.Max + translation;
+				BoundingBox transformedBoundingBox = new BoundingBox(transformedMin, transformedMax);
+
+				Console.WriteLine($"Adding {transformation} to [{originalBoundingBox.Max}, {originalBoundingBox.Min}] gives [{transformedBoundingBox.Min}, {transformedBoundingBox.Max}]");
+
+				// Add the new hitbox to the list, and
+				// also apply it to the model
+				Hitboxes.Add(transformedBoundingBox);
+			}
+		}
 	}
 }
