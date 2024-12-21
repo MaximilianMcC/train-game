@@ -3,14 +3,6 @@ using Raylib_cs;
 
 class Clock : Prop
 {
-	public Model HourHand;
-	public Model MinuteHand;
-	public Model SecondHand;
-
-	private float hoursHandAngle;
-	private float minutesHandAngle;
-	private float secondsHandAngle;
-
 	// TODO: Don't do this
 	private Vector3 position;
 	private float yRotation;
@@ -26,7 +18,7 @@ class Clock : Prop
 		// Set the initial positions and rotations for everything
 		foreach (string modelName in Models.Keys)
 		{
-			SetModelTransform(modelName, position, Vector3.UnitY * yRotation);
+			SetMatrix(modelName, GetMatrix(position, Vector3.UnitY * yRotation, 1f));
 		}
 
 		// TODO: Don't do this
@@ -45,13 +37,13 @@ class Clock : Prop
 		float time12 = 360 / 12;
 
 		// Calculate all the angles
-		hoursHandAngle = ((float)time.TotalHours) * time12;
-		minutesHandAngle = ((float)time.TotalMinutes) * time60;
-		secondsHandAngle = ((float)time.TotalSeconds) * time60;
+		float hoursHandAngle = ((float)time.TotalHours) * time12;
+		float minutesHandAngle = ((float)time.TotalMinutes) * time60;
+		float secondsHandAngle = ((float)time.TotalSeconds) * time60;
 
 		// Update all the angles
-		SetModelTransform("hourHand", position, new Vector3(0, yRotation, hoursHandAngle));
-		SetModelTransform("minuteHand", position, new Vector3(0, yRotation, minutesHandAngle));
-		SetModelTransform("secondHand", position, new Vector3(0, yRotation, secondsHandAngle));
+		SetMatrix("hourHand", GetMatrix(position, new Vector3(0, yRotation, hoursHandAngle)));
+		SetMatrix("minuteHand", GetMatrix(position, new Vector3(0, yRotation, minutesHandAngle)));
+		SetMatrix("secondHand", GetMatrix(position, new Vector3(0, yRotation, secondsHandAngle)));
 	}
 }

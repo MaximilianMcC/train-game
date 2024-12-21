@@ -20,7 +20,10 @@ class Map
 			{ "fireplace", new Prop("./assets/fireplace.glb", new Vector3(-3f, 0, 1.5f), -230) },
 			{ "painting", new Prop("./assets/painting.glb", new Vector3(-2, 1.8f, 2), 180)},
 			{ "clock", new Clock(new Vector3(2f, 1.6f, 2), 180) },
-			{ "desk", new Prop("./assets/desk.glb", new Vector3(2.95f, 0f, 1.65f)) }
+			{ "desk", new Prop("./assets/desk.glb", new Vector3(2.95f, 0f, 1.65f)) },
+
+			// idk
+			{ "debug", new Debug() }
 		};
 	}
 
@@ -49,10 +52,10 @@ class Map
 			// if (Raylib.CheckCollisionBoxes(collider, prop.BoundingBox) == false) continue;
 
 			// If there was collision, then check each mesh
-			foreach (BoundingBox boundingBox in prop.MeshBoundingBoxes)
-			{
-				if (Raylib.CheckCollisionBoxes(collider, boundingBox)) return true;
-			}
+			// foreach (BoundingBox boundingBox in prop.MeshBoundingBoxes)
+			// {
+			// 	if (Raylib.CheckCollisionBoxes(collider, boundingBox)) return true;
+			// }
 		}
 
 		// There was no collision
