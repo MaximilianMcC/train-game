@@ -70,14 +70,19 @@ class Program
 	{
 		Map.Render();
 
-		if (debug) Map.RenderDebug();
+		if (debug) Map.RenderDebug3D();
 	}
 
 	private static void Render2D()
 	{
 		Player.Render2D();
+		Map.RenderDebug2D();
 
-		if (debug) Raylib.DrawText($"FPS: {Raylib.GetFPS()}", 10, 10, 45, Color.White);
+		if (debug)
+		{
+			Raylib.DrawText($"FPS: {Raylib.GetFPS()}", 10, 10, 45, Color.White);
+			Player.RenderDebug2D();
+		}
 	}
 
 	private static void CleanUp()

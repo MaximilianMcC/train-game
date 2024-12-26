@@ -37,15 +37,21 @@ class Map
 		foreach (Prop prop in Stuff.Values) prop.Render3D();
 	}
 
-	public static void RenderDebug()
+	public static void RenderDebug3D()
 	{
+		// Draw all bounding boxes
 		foreach (Prop prop in Stuff.Values)
 		{
 			foreach (BoundingBox hitbox in prop.Hitboxes)
 			{
-				Raylib.DrawBoundingBox(hitbox, Color.Green);
+				Raylib.DrawBoundingBox(hitbox, Color.Magenta);
 			}
 		}
+	}
+
+	public static void RenderDebug2D()
+	{
+		foreach (Prop prop in Stuff.Values) prop.RenderDebug2D();
 	}
 
 	public static void Unload()

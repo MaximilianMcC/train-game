@@ -18,7 +18,7 @@ class Clock : Prop
 		// Set the initial positions and rotations for everything
 		foreach (string modelName in Models.Keys)
 		{
-			SetMatrix(modelName, GetMatrix(position, Vector3.UnitY * yRotation, 1f));
+			SetMatrix(modelName, GenerateMatrix(position, Vector3.UnitY * yRotation, 1f));
 		}
 
 		// TODO: Don't do this
@@ -42,8 +42,8 @@ class Clock : Prop
 		float secondsHandAngle = ((float)time.TotalSeconds) * time60;
 
 		// Update all the angles
-		SetMatrix("hourHand", GetMatrix(position, new Vector3(0, yRotation, hoursHandAngle)));
-		SetMatrix("minuteHand", GetMatrix(position, new Vector3(0, yRotation, minutesHandAngle)));
-		SetMatrix("secondHand", GetMatrix(position, new Vector3(0, yRotation, secondsHandAngle)));
+		SetMatrix("hourHand", GenerateMatrix(position, new Vector3(0, yRotation, -hoursHandAngle), 1));
+		SetMatrix("minuteHand", GenerateMatrix(position, new Vector3(0, yRotation, -minutesHandAngle), 1));
+		SetMatrix("secondHand", GenerateMatrix(position, new Vector3(0, yRotation, -secondsHandAngle), 1));
 	}
 }

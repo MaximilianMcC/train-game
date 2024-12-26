@@ -10,17 +10,21 @@ class Prop : Updatable
 	//? Empty constructor for custom stuff idk
 	public Prop() {}
 
+	//? Lazy ctor for if theres nothing special about the thing
 	public Prop(string modelPath, Vector3 position, float yRotation = 0f)
 	{
 		// Load in a default "main" model thingy idk
 		Models.Add("main", AssetManager.LoadGlbModel(modelPath));
-		SetMatrix("main", GetMatrix(position, new Vector3(0, yRotation, 0), 1f));
+		SetMatrix("main", GenerateMatrix(position, new Vector3(0, yRotation, 0), 1f));
 	}
 
 	public override void Render3D()
 	{
 		// Draw everything
-		foreach (Model model in Models.Values) Raylib.DrawModel(model, Vector3.Zero, 1f, Color.White);
+		foreach (Model model in Models.Values)
+		{
+			Raylib.DrawModel(model, Vector3.Zero, 1f, Color.White);
+		}
 	}
 
 	public override void Unload()
@@ -29,22 +33,25 @@ class Prop : Updatable
 		foreach (Model model in Models.Values) Raylib.UnloadModel(model);
 	}
 
-	// TODO: Rename to `GetTransformationMatrix` for clarity
-	protected Matrix4x4 GetMatrix(Vector3 position, Vector3 rotation, float scale = 0f)
+	// TODO: Rename to `GenerateTransformationMatrix` for clarity
+	protected Matrix4x4 GenerateMatrix(Vector3 position, Vector3 rotation, float scale)
 	{
 		// Set the position and scale
 		Matrix4x4 positionMatrix = Matrix4x4.CreateTranslation(position);
 		Matrix4x4 scaleMatrix = Matrix4x4.CreateScale(scale);
 
 		// Set the rotation
-		// TODO: Do in a one-liner
-		Matrix4x4 rotationX = Matrix4x4.CreateRotationX(rotation.X * Raylib.DEG2RAD);
-		Matrix4x4 rotationY = Matrix4x4.CreateRotationY(rotation.Y * Raylib.DEG2RAD);
-		Matrix4x4 rotationZ = Matrix4x4.CreateRotationZ(rotation.Z * Raylib.DEG2RAD);
-		Matrix4x4 rotationMatrix = rotationX * rotationY * rotationZ;
+		//? the `% 360` bit normalises the rotations. This stops it from flipping inside out
+		Quaternion quaternion = Quaternion.CreateFromYawPitchRoll(
+			(rotation.Y % 360) * Raylib.DEG2RAD, 
+			(rotation.X % 360) * Raylib.DEG2RAD, 
+			(rotation.Z % 360) * Raylib.DEG2RAD
+		);
+		Matrix4x4 rotationMatrix = Matrix4x4.CreateFromQuaternion(quaternion);
 
 		// Combine everything
 		//! Values must be multiplied in this order
+		// Matrix4x4 matrix = positionMatrix * rotationMatrix * scaleMatrix;
 		Matrix4x4 matrix = scaleMatrix * rotationMatrix * positionMatrix;
 
 		// Return the matrix
@@ -109,7 +116,7 @@ class Prop : Updatable
 				// Get the bounding box that is centred at the world/models origin
 				BoundingBox originalBoundingBox = Raylib.GetMeshBoundingBox(meshes[i]);
 
-				// Extract the translation only from the transformation
+				// Extract the translation only
 				Vector3 translation = new Vector3(transformation.M14, transformation.M24, transformation.M34);
 
 				// Update the position of the bounding box according to a transformation matrix
@@ -120,12 +127,11 @@ class Prop : Updatable
 				Vector3 transformedMax = originalBoundingBox.Max + translation;
 				BoundingBox transformedBoundingBox = new BoundingBox(transformedMin, transformedMax);
 
-				Console.WriteLine($"Adding {transformation} to [{originalBoundingBox.Max}, {originalBoundingBox.Min}] gives [{transformedBoundingBox.Min}, {transformedBoundingBox.Max}]");
-
 				// Add the new hitbox to the list, and
 				// also apply it to the model
 				Hitboxes.Add(transformedBoundingBox);
 			}
 		}
 	}
+
 }

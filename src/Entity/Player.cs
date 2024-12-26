@@ -48,6 +48,11 @@ class Player
 		Raylib.DrawCircleV(centre, centre.X / 250, Color.White);
 	}
 
+	public static void RenderDebug2D()
+	{
+		
+	}
+
 	private static void UpdateCamera()
 	{
 		// Get the direction that we're looking
@@ -94,14 +99,12 @@ class Player
 
 		// TODO: Make the size an actual thing
 		// Make a bounding box based on the new position
-		Vector3 size = new Vector3(0f, height, 0f);
+		Vector3 size = new Vector3(0.01f, height, 0.01f);
 		BoundingBox hitbox = new BoundingBox(potentialNewPosition, potentialNewPosition + size);
 
 		// Check for collision. If there wasn't any then
 		// set the players position to be this new one
 		bool collision = Map.Collision(hitbox);
 		if (collision == false) Position = potentialNewPosition;
-		// Console.WriteLine(collision); 
-		// Position = potentialNewPosition;
 	}
 }

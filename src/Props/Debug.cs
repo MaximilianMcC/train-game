@@ -7,8 +7,15 @@ class Debug : Prop
 
 	public override void Update()
 	{
-		if (!Raylib.IsKeyPressed(KeyboardKey.Space)) return;
+		float rotation = 100 * Raylib.GetFrameTime();
 
-		AddMatrix("main", GetMatrix(Vector3.Zero, Vector3.Zero, 1.1f));
+		AddMatrix(
+			Models.FirstOrDefault().Key,
+			GenerateMatrix(
+				Vector3.Zero,
+				new Vector3(0, rotation, 0),
+				1
+			)
+		);
 	}
 }
