@@ -1,2 +1,5 @@
-# Signal box simulator thing
-3D game where you simulate the job of a signalman. Gonna have like bell codes and whatnot. Based on LMS practices, but kinda just like BR signalling idk. GWR will probably sneak its way in there somehow
+# train game
+shunting idk
+
+
+## erhm also check the signal branch for the 3D signal box simulator game

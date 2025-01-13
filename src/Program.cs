@@ -3,20 +3,13 @@ using Raylib_cs;
 
 class Program
 {
-	private static RenderTexture2D cameraOutput;
-	private static bool debug = true;
-
 	public static void Main(string[] args)
 	{
 		// Raylib stuff
 		Raylib.SetTraceLogLevel(TraceLogLevel.Warning);
 		Raylib.SetConfigFlags(ConfigFlags.AlwaysRunWindow | ConfigFlags.ResizableWindow);
-		Raylib.InitWindow(800, 600, "John track, the inventor of rails (from sheffield btw)");
+		Raylib.InitWindow(800, 600, "r");
 		Raylib.SetTargetFPS(144);
-
-		// Make the camera output render texture
-		// so that we can render the game pixelated
-		cameraOutput = Raylib.LoadRenderTexture(854, 480);
 
 		// Game stuff
 		Start();
@@ -25,27 +18,9 @@ class Program
 			Update();
 
 			Raylib.BeginDrawing();
-				Raylib.ClearBackground(Color.Magenta);
+			Raylib.ClearBackground(Color.Magenta);
 
-				// Render 3D stuff to the output texture
-				Raylib.BeginTextureMode(cameraOutput);
-					Raylib.ClearBackground(Color.Brown);
-					Raylib.BeginMode3D(Player.Camera);
-						Render3D();
-					Raylib.EndMode3D();
-				Raylib.EndTextureMode();
-				
-				// Draw the render texture blown up
-				Raylib.DrawTexturePro(
-					cameraOutput.Texture,
-					new Rectangle(0, 0, cameraOutput.Texture.Width, -cameraOutput.Texture.Height),
-					new Rectangle(0, 0, Raylib.GetScreenWidth(), Raylib.GetScreenHeight()),
-					Vector2.Zero,
-					0f,
-					Color.White
-				);
-
-				Render2D();
+			Render();
 
 			Raylib.EndDrawing();
 		}
@@ -54,41 +29,18 @@ class Program
 
 	private static void Start()
 	{
-		Player.Start();
-		Map.Load();
 	}
 
 	private static void Update()
 	{
-		Map.Update();
-		Player.Update();
-
-		if (Raylib.IsKeyPressed(InputManager.ToggleDebug)) debug = !debug;
 	}
 
-	private static void Render3D()
+	private static void Render()
 	{
-		Map.Render();
-
-		if (debug) Map.RenderDebug3D();
-	}
-
-	private static void Render2D()
-	{
-		Player.Render2D();
-		Map.RenderDebug2D();
-
-		if (debug)
-		{
-			Raylib.DrawText($"FPS: {Raylib.GetFPS()}", 10, 10, 45, Color.White);
-			Player.RenderDebug2D();
-		}
 	}
 
 	private static void CleanUp()
 	{
-		Raylib.UnloadRenderTexture(cameraOutput);
-		Map.Unload();
 		Raylib.CloseWindow();
 	}
 }
