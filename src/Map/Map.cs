@@ -14,7 +14,7 @@ class Map
 		Stuff = new Dictionary<string, Prop>()
 		{
 			// Actual signal box
-			{ "room", new Prop("./assets/room.glb", new Vector3(0, -0.01f, 0)) },
+			// { "room", new Prop("./assets/room.glb", new Vector3(0, -0.01f, 0)) },
 
 			// Furniture and stuff
 			{ "fireplace", new Prop("./assets/fireplace.glb", new Vector3(-3f, 0, 1.5f), -230) },
@@ -23,7 +23,10 @@ class Map
 			{ "desk", new Prop("./assets/desk.glb", new Vector3(2.95f, 0f, 1.65f)) },
 
 			// idk
-			{ "debug", new Debug() }
+			// { "debug", new Debug() },
+
+			// Outside stuff
+			{ "semaphore", new SemaphoreSignal(new Vector3(0, 0, -8)) }
 		};
 	}
 

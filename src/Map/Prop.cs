@@ -6,6 +6,7 @@ class Prop : Updatable
 {
 	public Dictionary<string, Model> Models = [];
 	public List<BoundingBox> Hitboxes = [];
+	public Vector3 Position;
 
 	//? Empty constructor for custom stuff idk
 	public Prop() {}
@@ -13,9 +14,13 @@ class Prop : Updatable
 	//? Lazy ctor for if theres nothing special about the thing
 	public Prop(string modelPath, Vector3 position, float yRotation = 0f)
 	{
+		// Set the position
+		Position = position;
+
 		// Load in a default "main" model thingy idk
 		Models.Add("main", AssetManager.LoadGlbModel(modelPath));
-		SetMatrix("main", GenerateMatrix(position, new Vector3(0, yRotation, 0), 1f));
+		SetMatrix("main", GenerateMatrix(Position, new Vector3(0, yRotation, 0), 1f));
+
 	}
 
 	public override void Render3D()
@@ -34,7 +39,7 @@ class Prop : Updatable
 	}
 
 	// TODO: Rename to `GenerateTransformationMatrix` for clarity
-	protected Matrix4x4 GenerateMatrix(Vector3 position, Vector3 rotation, float scale)
+	protected Matrix4x4 GenerateMatrix(Vector3 position, Vector3 rotation, float scale = 1)
 	{
 		// Set the position and scale
 		Matrix4x4 positionMatrix = Matrix4x4.CreateTranslation(position);

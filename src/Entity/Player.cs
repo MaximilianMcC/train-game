@@ -10,7 +10,8 @@ class Player
 
 	// 3D stuff
 	public static Camera3D Camera;
-	private static float yaw, pitch;
+	private static float yaw = 180;
+	private static float pitch = 0;
 	private static Quaternion headRotation;
 
 	// Player stats
