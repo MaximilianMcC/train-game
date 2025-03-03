@@ -12,8 +12,7 @@ class SemaphoreSignal : Prop
 	// TODO: Don't put here
 	private const float Gravity = 9.81f;
 
-	// private float armWeight = 25f * Gravity;
-	private float armWeight = Gravity;
+	private float armWeight = 25f * Gravity;
 	private float armVelocity = 0;
 	private float bounceFactor = 0.7f;
 	private bool simulating = false;
@@ -50,19 +49,19 @@ class SemaphoreSignal : Prop
 	{
 		// Apply the force to move the arm
 		//? gravity working both for up and down here
-		//TODO: Make going up slower and stutter in middle (person doing it)
-		int direction = Danger ? 1 : -1;
-		armVelocity += (armWeight * direction) * Raylib.GetFrameTime();
+		//? 2.5 makes it go upwards quicker (Danger → clear)
+		float directionAndFactors = Danger ? 1 : -2.5f;
+		armVelocity += (armWeight * directionAndFactors) * Raylib.GetFrameTime();
 
 		// Rotate the arm
 		armRotation += armVelocity * Raylib.GetFrameTime();
 
 		// Check if we need to bounce the arm
-		float finalPosition = (Danger ? 0 : clearAngle);
-		if (armRotation >= finalPosition)
+		float finalAngle = Danger ? 0 : clearAngle;
+		if ((Danger && armRotation >= finalAngle) || (!Danger && armRotation <= finalAngle))
 		{
 			// Ensure we are actually on the ground
-			armRotation = finalPosition;
+			armRotation = finalAngle;
 
 			// Flip the direction of the bounce
 			// and make the next bounce not as
