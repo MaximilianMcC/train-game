@@ -23,7 +23,7 @@ class Map
 			{ "desk", new Prop("./assets/desk.glb", new Vector3(2.95f, 0f, 1.65f)) },
 
 			// idk
-			// { "debug", new Debug() },
+			{ "debug", new Debug() },
 
 			// Outside stuff
 			{ "semaphore", new SemaphoreSignal(new Vector3(0, 0, -8)) }
