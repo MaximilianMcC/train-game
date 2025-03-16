@@ -70,7 +70,7 @@ class SemaphoreSignal : Prop
 
 			// If the velocity is small then
 			// the simulation is probably over
-			if ((int)armVelocity == 0)
+			if (Math.Abs(armVelocity) <= 2)
 			{
 				armVelocity = 0f;
 				simulating = false;
