@@ -1,4 +1,3 @@
-using System.Diagnostics;
 using System.Numerics;
 using Raylib_cs;
 
@@ -30,8 +29,8 @@ class TrackHandler
 
 class Track
 {
-	public Track Beginning = null;
-	public Track End = null;
+	public Track Next = null;
+	public Track Previous = null;
 
 	public float Length;
 	public Vector2 Position;
