@@ -91,7 +91,9 @@ class Locomotive
 		// TODO: Draw the thing between the two bogeys. like a real train
 		float angleRadians = MathF.Atan2(bogey.Track.Direction.Y, bogey.Track.Direction.X);
 		float rotation = angleRadians * Raylib.RAD2DEG;
-		Raylib.DrawTextureEx(texture, bogey.Position, rotation, 0.1f, Color.White);
+		// Raylib.DrawTextureEx(texture, bogey.Position - new Vector2(texture.Width, 0) * 0.1f, rotation, 0.1f, Color.White);
+
+		Raylib.DrawCircleV(bogey.Position, 7.5f, Color.White);
 
 		Raylib.DrawText($"{bogey.PositionOnTrack}", 10, 10, 30, Color.White);
 	}

@@ -10,20 +10,32 @@ class Program
 		Raylib.SetConfigFlags(ConfigFlags.AlwaysRunWindow | ConfigFlags.ResizableWindow);
 		Raylib.InitWindow(800, 600, "I have got until February to do this");
 
-		TrackHandler.AnchorPosition = new Vector2(100f);
-		Track track0 = new Track(200f, Vector2.UnitX);
-		Track track1 = new Track(200f, new Vector2(0.5f));
-		Track track2 = new Track(200f, Vector2.UnitX);
+		TrackHandler.AnchorPosition = new Vector2(100f, 500f);
 
-		Locomotive locomotive = new Locomotive(track0, 0f);
+		Vector2 horizontal = Vector2.UnitX;
+
+		Track headShunt = new Track(200f, horizontal);
+		TrackPoint points = new TrackPoint(100f, horizontal);
+
+		Track top = new Track(100f, horizontal);
+
+		Track bottom = new Track(100f, horizontal);
+		TrackHandler.LinkBranch(points, bottom);
+
+
+
+
+		Locomotive locomotive = new Locomotive(headShunt, 0f);
 
 		while (Raylib.WindowShouldClose() == false)
 		{
 			locomotive.Update();
 
+			if (Raylib.IsKeyPressed(KeyboardKey.Space)) points.Switch();
+
 			Raylib.BeginDrawing();
 			Raylib.ClearBackground(Color.Magenta);
-			TrackHandler.Draw();
+			TrackHandler.DrawAllTrack();
 			locomotive.Draw();
 			Raylib.EndDrawing();
 		}
