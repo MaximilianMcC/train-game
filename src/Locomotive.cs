@@ -8,7 +8,7 @@ class Bogey
 	public float PositionOnTrack = 0;
 	public Track Track;
 
-	public Vector2 Position => Track.Position + (Vector2.UnitX * (Track.Length * PositionOnTrack));
+	public Vector2 Position => Track.Position + (Track.Direction * (Track.Length * PositionOnTrack));
 
 	//? movement is how much to move, in 'units', on the track (negative is backwards)
 	public void Move(float movement)
@@ -58,7 +58,7 @@ class Bogey
 
 class Locomotive
 {
-	private float speed = 100f;
+	private float speed = 500f;
 
 	private Bogey bogey;
 	// private Bogey frontBogey;
@@ -89,7 +89,9 @@ class Locomotive
 	public void Draw()
 	{
 		// TODO: Draw the thing between the two bogeys. like a real train
-		Raylib.DrawTextureEx(texture, bogey.Position, 0f, 0.1f, Color.White);
+		float angleRadians = MathF.Atan2(bogey.Track.Direction.Y, bogey.Track.Direction.X);
+		float rotation = angleRadians * Raylib.RAD2DEG;
+		Raylib.DrawTextureEx(texture, bogey.Position, rotation, 0.1f, Color.White);
 
 		Raylib.DrawText($"{bogey.PositionOnTrack}", 10, 10, 30, Color.White);
 	}

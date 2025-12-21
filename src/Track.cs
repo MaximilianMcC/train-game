@@ -12,7 +12,7 @@ class TrackHandler
 		{
 			// Sort out its position
 			Track previousTrack = Track.Last();
-			newTrack.Position = previousTrack.Position + (Vector2.UnitX * previousTrack.Length);
+			newTrack.Position = previousTrack.EndPosition;
 
 			// 'link' the two tracks together
 			newTrack.Previous = previousTrack;
@@ -38,18 +38,24 @@ class Track
 	public Track Previous = null;
 
 	public float Length;
-	public Vector2 Position;
+	public Vector2 Direction;
 	private Color debugColor;
 
-	public Track(float length)
+	public Vector2 Position;
+	public Vector2 EndPosition => Position + (Direction * Length);
+
+	public Track(float length, Vector2 direction)
 	{
 		debugColor = Utils.RandomColor();
+
 		Length = length;
+		Direction = direction;
+
 		TrackHandler.Add(this);
 	}
 
 	public void Draw()
 	{
-		Raylib.DrawLineEx(Position, Position + (Vector2.UnitX * Length), 15f, debugColor);
+		Raylib.DrawLineEx(Position, EndPosition, 15f, debugColor);
 	}
 }

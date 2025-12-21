@@ -11,9 +11,9 @@ class Program
 		Raylib.InitWindow(800, 600, "I have got until February to do this");
 
 		TrackHandler.AnchorPosition = new Vector2(100f);
-		Track track0 = new Track(200f);
-		Track track1 = new Track(200f);
-		Track track2 = new Track(200f);
+		Track track0 = new Track(200f, Vector2.UnitX);
+		Track track1 = new Track(200f, new Vector2(0.5f));
+		Track track2 = new Track(200f, Vector2.UnitX);
 
 		Locomotive locomotive = new Locomotive(track0, 0f);
 
