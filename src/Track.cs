@@ -10,12 +10,17 @@ class TrackHandler
 	{
 		if (Track.Count != 0)
 		{
+			// Sort out its position
 			Track previousTrack = Track.Last();
 			newTrack.Position = previousTrack.Position + (Vector2.UnitX * previousTrack.Length);
+
+			// 'link' the two tracks together
+			newTrack.Previous = previousTrack;
+			previousTrack.Next = newTrack;
 		}
 		else newTrack.Position = AnchorPosition;
 
-		Track.Add(newTrack);			
+		Track.Add(newTrack);
 	}
 
 	public static void Draw()

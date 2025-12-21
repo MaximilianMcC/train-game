@@ -8,12 +8,15 @@ class Bogey
 	public float PositionOnTrack = 0;
 	public Track Track;
 
+	public Vector2 Position => Track.Position + (Vector2.UnitX * (Track.Length * PositionOnTrack));
+
 	//? movement is how much to move, in 'units', on the track (negative is backwards)
 	public void Move(float movement)
 	{
 		// Convert the movement into the percentage
-		float movementDelta = Track.Length - movement;
-		float percentage = movementDelta / Track.Length;
+		if (movement == 0) return;
+		float percentage = movement / Track.Length;
+		// float percentage = Math.Abs(movement) / Track.Length;
 
 		// Update our position
 		PositionOnTrack += percentage;
@@ -25,8 +28,13 @@ class Bogey
 			{
 				PositionOnTrack -= 1f;
 				Track = Track.Next;
+				Console.WriteLine("Moving on to the next track");
 			}
-			else PositionOnTrack = 1f;
+			else
+			{
+				PositionOnTrack = 1f;
+				Console.WriteLine("Reached the end of the line");
+			}
 		}
 
 		// Check for if we need to move onto the previous track
@@ -34,12 +42,17 @@ class Bogey
 		{
 			if (Track.Previous != null)
 			{
-				PositionOnTrack -= 1f;
+				PositionOnTrack += 1f;
 				Track = Track.Previous;
-			}
-			else PositionOnTrack = 0f;
-		}
 
+				Console.WriteLine("Moving on to the previous (next) track");
+			}
+			else
+			{
+				PositionOnTrack = 0f;
+				Console.WriteLine("Reached the end of the line");
+			}
+		}
 	}
 }
 
@@ -69,14 +82,14 @@ class Locomotive
 		if (Raylib.IsKeyDown(KeyboardKey.Left)) direction--;
 		if (Raylib.IsKeyDown(KeyboardKey.Right)) direction++;
 
-		float movement = direction * speed;
+		float movement = (direction * speed) * Raylib.GetFrameTime();
 		bogey.Move(movement);
 	}
 
 	public void Draw()
 	{
 		// TODO: Draw the thing between the two bogeys. like a real train
-		Raylib.DrawTextureEx(texture, bogey.Track.Position, 0f, 0.1f, Color.White);
+		Raylib.DrawTextureEx(texture, bogey.Position, 0f, 0.1f, Color.White);
 
 		Raylib.DrawText($"{bogey.PositionOnTrack}", 10, 10, 30, Color.White);
 	}
